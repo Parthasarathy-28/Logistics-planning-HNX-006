@@ -371,14 +371,23 @@ function handleDecision(req, res) {
     const { id } = req.params; // planId or disturbanceId
     const { decision, selectedOptionId } = req.body; // 'ACCEPT' | 'REJECT' | 'MODIFY'
 
+    const validDecisions = ['ACCEPT', 'REJECT', 'MODIFY'];
+    if (!decision || typeof decision !== 'string' || !validDecisions.includes(decision.toUpperCase())) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid decision. Allowed values: ACCEPT, REJECT, MODIFY'
+      });
+    }
+
     let plan = db.prepare('SELECT * FROM recovery_plans WHERE id = ? OR disturbance_id = ?').get(id, id);
     if (!plan) {
       return res.status(404).json({ error: 'Recovery plan not found' });
     }
 
+    const upperDecision = decision.toUpperCase();
     let status = 'APPROVED';
-    if (decision === 'REJECT') status = 'REJECTED';
-    if (decision === 'MODIFY') status = 'MODIFIED';
+    if (upperDecision === 'REJECT') status = 'REJECTED';
+    if (upperDecision === 'MODIFY') status = 'MODIFIED';
 
     db.prepare('UPDATE recovery_plans SET status = ? WHERE id = ?').run(status, plan.id);
     db.prepare('UPDATE disturbances SET status = ? WHERE id = ?').run('PLAN_' + status, plan.disturbance_id);
