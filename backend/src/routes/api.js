@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/appController');
+const { requireAuth, requireOwner, requireDriver } = require('../middleware/auth');
 
 // Health Check
 router.get('/health', (req, res) => {
@@ -9,17 +10,22 @@ router.get('/health', (req, res) => {
 
 // Authentication
 router.post('/auth/login', controller.login);
+router.post('/auth/register', controller.register);
+
+// Logistics Data Lookup APIs
+router.get('/vehicles', controller.getVehicles);
+router.get('/routes', controller.getRoutes);
 
 // Driver APIs
-router.get('/driver/:id', controller.getDriver);
+router.get('/driver/:id', requireDriver, controller.getDriver);
 router.post('/disturbances', controller.createDisturbance);
-router.post('/recovery/:id/acknowledge', controller.acknowledgePlan);
-router.post('/deliveries/:id/complete', controller.completeDelivery);
+router.post('/recovery/:id/acknowledge', requireDriver, controller.acknowledgePlan);
+router.post('/deliveries/:id/complete', requireDriver, controller.completeDelivery);
 
 // Owner APIs
-router.get('/owner/alerts', controller.getOwnerAlerts);
-router.get('/disturbances', controller.getAllDisturbances);
-router.get('/disturbances/:id', controller.getDisturbance);
+router.get('/owner/alerts', requireOwner, controller.getOwnerAlerts);
+router.get('/disturbances', requireOwner, controller.getAllDisturbances);
+router.get('/disturbances/:id', requireOwner, controller.getDisturbance);
 
 // Intelligence Engine APIs
 router.post('/impact/analyze', controller.getImpactAnalysis);
@@ -33,6 +39,10 @@ router.post('/recovery/:id/send', controller.sendPlanToDriver);
 
 // What-If Simulation API
 router.post('/simulation', controller.runSimulation);
+
+// GPS Location & Fleet Mapping APIs
+router.post('/locations/update', controller.updateLocation);
+router.get('/locations', controller.getFleetLocations);
 
 // Demo Mode Controls
 router.post('/demo/seed', controller.resetDemo);

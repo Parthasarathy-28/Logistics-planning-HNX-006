@@ -1,25 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldAlert, AlertTriangle, ArrowRight, Truck, MapPin, Activity, CheckCircle, RefreshCw, Eye } from 'lucide-react';
+import FleetMap from '../components/FleetMap';
 import { api } from '../services/api';
 
 export default function OwnerDashboard({ onViewImpact, onViewDetails, showToast }) {
   const [alertsData, setAlertsData] = useState(null);
+  const [fleetData, setFleetData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchAlerts = async () => {
+  const fetchData = async () => {
     try {
-      const data = await api.getOwnerAlerts();
-      setAlertsData(data);
+      const [alerts, fleet] = await Promise.all([
+        api.getOwnerAlerts(),
+        api.getFleetLocations()
+      ]);
+      setAlertsData(alerts);
+      setFleetData(fleet);
     } catch (err) {
-      console.error('Failed to load owner alerts:', err);
+      console.error('Failed to load owner dashboard data:', err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchAlerts();
-    const interval = setInterval(fetchAlerts, 3000);
+    fetchData();
+    const interval = setInterval(fetchData, 3500);
     return () => clearInterval(interval);
   }, []);
 
@@ -35,17 +41,24 @@ export default function OwnerDashboard({ onViewImpact, onViewDetails, showToast 
             Operations Control Center
           </span>
           <h1 className="text-2xl font-black text-slate-900 mt-2">OWNER DECISION-SUPPORT DASHBOARD</h1>
-          <p className="text-xs text-slate-500 font-medium">Real-time situational awareness and disruption recovery oversight</p>
+          <p className="text-xs text-slate-500 font-medium">Real-time situational awareness, live GPS fleet map, and disruption recovery oversight</p>
         </div>
 
         <button
-          onClick={fetchAlerts}
+          onClick={fetchData}
           className="self-start md:self-auto px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-xl flex items-center space-x-2 transition-all shadow"
         >
           <RefreshCw className="w-3.5 h-3.5" />
-          <span>Refresh Feed</span>
+          <span>Refresh Fleet & Map</span>
         </button>
       </div>
+
+      {/* 🗺️ REAL GEOGRAPHIC FLEET MAP (LEAFLET + OPENSTREETMAP) */}
+      <FleetMap
+        vehicles={fleetData?.vehicles || []}
+        disruptions={fleetData?.activeDisruptions || []}
+        deliveries={fleetData?.deliveries || []}
+      />
 
       {/* 🚨 OWNER ALERT CARD (Prominent Requirement #7) */}
       {latestAlert ? (

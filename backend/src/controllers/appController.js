@@ -5,28 +5,63 @@ const { calculateDeliveryRisks } = require('../engine/riskEngine');
 const { generateRecoveryOptions } = require('../engine/recoveryEngine');
 const { scoreRecoveryOptions } = require('../engine/scoringEngine');
 
+const bcrypt = require('bcryptjs');
+
 // 1. Auth Login
 function login(req, res) {
   try {
-    const { role, username } = req.body;
-    let user;
+    const { username, password } = req.body;
 
-    if (role === 'DRIVER') {
-      user = db.prepare("SELECT * FROM users WHERE role = 'DRIVER' LIMIT 1").get();
-    } else {
-      user = db.prepare("SELECT * FROM users WHERE role = 'OWNER' LIMIT 1").get();
+    if (!username || !password || typeof username !== 'string' || typeof password !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Username and password are required'
+      });
     }
 
+    const trimmedUser = username.trim();
+
+    // Query user by username
+    const user = db.prepare('SELECT * FROM users WHERE LOWER(username) = LOWER(?)').get(trimmedUser);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(401).json({
+        success: false,
+        error: 'Invalid username or password'
+      });
+    }
+
+    // Check account status
+    if (user.status === 'INACTIVE') {
+      return res.status(403).json({
+        success: false,
+        error: 'Account is inactive'
+      });
+    }
+
+    // Verify bcrypt password hash
+    let passwordValid = false;
+    if (user.password_hash) {
+      passwordValid = bcrypt.compareSync(password, user.password_hash);
+    }
+
+    if (!passwordValid) {
+      return res.status(401).json({
+        success: false,
+        error: 'Invalid username or password'
+      });
     }
 
     let driver = null;
     let vehicle = null;
     let route = null;
 
-    if (user.role === 'DRIVER' && user.driver_id) {
-      driver = db.prepare('SELECT * FROM drivers WHERE id = ?').get(user.driver_id);
+    if (user.role === 'DRIVER') {
+      if (user.driver_id) {
+        driver = db.prepare('SELECT * FROM drivers WHERE id = ?').get(user.driver_id);
+      }
+      if (!driver) {
+        driver = db.prepare('SELECT * FROM drivers WHERE user_id = ?').get(user.id);
+      }
       if (driver && driver.current_vehicle_id) {
         vehicle = db.prepare('SELECT * FROM vehicles WHERE id = ?').get(driver.current_vehicle_id);
       }
@@ -35,15 +70,144 @@ function login(req, res) {
       }
     }
 
+    const safeUser = {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      role: user.role,
+      driverId: driver ? driver.id : (user.driver_id || 'DRV04'),
+      vehicleId: vehicle ? vehicle.id : (driver ? driver.current_vehicle_id : 'V04'),
+      routeId: route ? route.id : (driver ? driver.current_route_id : 'R03')
+    };
+
     res.json({
       success: true,
-      user,
+      user: safeUser,
       driver,
       vehicle,
       route
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success: false, error: err.message });
+  }
+}
+
+// 1b. Auth Register
+function register(req, res) {
+  try {
+    const { name, username, password, confirmPassword, role, vehicleId, routeId } = req.body;
+
+    if (!name || !username || !password || !confirmPassword || !role) {
+      return res.status(400).json({
+        success: false,
+        error: 'All fields are required.'
+      });
+    }
+
+    const trimmedName = name.trim();
+    const trimmedUser = username.trim();
+
+    if (trimmedUser.length < 3) {
+      return res.status(400).json({
+        success: false,
+        error: 'Username must be at least 3 characters.'
+      });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({
+        success: false,
+        error: 'Passwords do not match.'
+      });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        error: 'Password must be at least 6 characters.'
+      });
+    }
+
+    const upperRole = role.toUpperCase();
+    if (upperRole !== 'OWNER' && upperRole !== 'DRIVER') {
+      return res.status(400).json({
+        success: false,
+        error: 'Role must be OWNER or DRIVER.'
+      });
+    }
+
+    // Check duplicate username (case-insensitive)
+    const existing = db.prepare('SELECT * FROM users WHERE LOWER(username) = LOWER(?)').get(trimmedUser);
+    if (existing) {
+      return res.status(409).json({
+        success: false,
+        error: 'Username already exists. Please choose another username.'
+      });
+    }
+
+    const userId = 'USR_' + Date.now();
+    const passwordHash = bcrypt.hashSync(password, 10);
+    const createdAt = new Date().toISOString();
+
+    let driverId = null;
+
+    if (upperRole === 'DRIVER') {
+      const targetVehicleId = vehicleId || 'V04';
+      const targetRouteId = routeId || 'R03';
+
+      driverId = 'DRV_' + Date.now();
+
+      // Insert driver profile record
+      const insertDriver = db.prepare(`
+        INSERT INTO drivers (id, user_id, driver_code, name, status, current_vehicle_id, current_route_id, latitude, longitude)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `);
+      insertDriver.run(driverId, userId, driverId, trimmedName, 'ON_DELIVERY', targetVehicleId, targetRouteId, 12.9716, 77.5946);
+
+      // Assign driver name & active status to selected vehicle
+      db.prepare("UPDATE vehicles SET driver_name = ?, status = 'ACTIVE' WHERE id = ?").run(trimmedName, targetVehicleId);
+    }
+
+    const insertUser = db.prepare(`
+      INSERT INTO users (id, name, username, password_hash, role, status, driver_id, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    insertUser.run(userId, trimmedName, trimmedUser, passwordHash, upperRole, 'ACTIVE', driverId, createdAt);
+
+    const safeUser = {
+      id: userId,
+      name: trimmedName,
+      username: trimmedUser,
+      role: upperRole,
+      ...(driverId ? { driverId, vehicleId: vehicleId || 'V04', routeId: routeId || 'R03' } : {})
+    };
+
+    res.status(201).json({
+      success: true,
+      message: 'Account created successfully. Please log in.',
+      user: safeUser
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+}
+
+function getVehicles(req, res) {
+  try {
+    const vehicles = db.prepare('SELECT * FROM vehicles').all();
+    res.json({ success: true, vehicles });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+}
+
+function getRoutes(req, res) {
+  try {
+    const routes = db.prepare('SELECT * FROM routes').all();
+    res.json({ success: true, routes });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
 }
 
@@ -571,8 +735,137 @@ function loadDemoScenario(req, res) {
   }
 }
 
+// 15. GPS Update API (Driver Browser Location Stream)
+function updateLocation(req, res) {
+  try {
+    const {
+      vehicleId = 'V04',
+      driverId = 'DRV04',
+      latitude,
+      longitude,
+      accuracy = null,
+      speed = null,
+      heading = null,
+      source = 'LIVE_GPS'
+    } = req.body;
+
+    const lat = parseFloat(latitude);
+    const lng = parseFloat(longitude);
+
+    if (isNaN(lat) || lat < -90 || lat > 90 || isNaN(lng) || lng < -180 || lng > 180) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid latitude or longitude coordinates.'
+      });
+    }
+
+    const vehicle = db.prepare('SELECT * FROM vehicles WHERE id = ?').get(vehicleId);
+    if (!vehicle) {
+      return res.status(404).json({ success: false, error: `Vehicle ${vehicleId} not found.` });
+    }
+
+    const locId = 'LOC_' + vehicleId;
+    const timestamp = new Date().toISOString();
+
+    // Upsert into vehicle_locations
+    const existing = db.prepare('SELECT * FROM vehicle_locations WHERE vehicle_id = ?').get(vehicleId);
+    if (existing) {
+      db.prepare(`
+        UPDATE vehicle_locations 
+        SET driver_id = ?, latitude = ?, longitude = ?, accuracy = ?, speed = ?, heading = ?, source = ?, timestamp = ?
+        WHERE vehicle_id = ?
+      `).run(driverId, lat, lng, accuracy, speed, heading, source, timestamp, vehicleId);
+    } else {
+      db.prepare(`
+        INSERT INTO vehicle_locations (id, vehicle_id, driver_id, latitude, longitude, accuracy, speed, heading, source, timestamp)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(locId, vehicleId, driverId, lat, lng, accuracy, speed, heading, source, timestamp);
+    }
+
+    // Update drivers & vehicles tables
+    db.prepare('UPDATE drivers SET latitude = ?, longitude = ? WHERE id = ? OR current_vehicle_id = ?').run(lat, lng, driverId, vehicleId);
+    db.prepare('UPDATE vehicles SET current_location = ? WHERE id = ?').run(`${lat.toFixed(4)}° N, ${lng.toFixed(4)}° E`, vehicleId);
+
+    res.json({
+      success: true,
+      vehicleId,
+      driverId,
+      latitude: lat,
+      longitude: lng,
+      accuracy,
+      speed,
+      heading,
+      source,
+      timestamp
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+}
+
+// 16. Fleet Location API for Owner Dashboard Map
+function getFleetLocations(req, res) {
+  try {
+    const vehicles = db.prepare('SELECT * FROM vehicles').all();
+    const drivers = db.prepare('SELECT * FROM drivers').all();
+    const locations = db.prepare('SELECT * FROM vehicle_locations').all();
+    const activeDisruptions = db.prepare("SELECT * FROM disturbances WHERE status != 'COMPLETED'").all();
+    const activeDeliveries = db.prepare("SELECT * FROM deliveries WHERE status IN ('IN_TRANSIT', 'PENDING', 'REASSIGNED')").all();
+
+    const fleetVehicles = vehicles.map(veh => {
+      const driver = drivers.find(d => d.current_vehicle_id === veh.id) || { id: null, name: veh.driver_name || 'Unassigned' };
+      const loc = locations.find(l => l.vehicle_id === veh.id);
+
+      // Default fallback coordinates if location record not present
+      let lat = 12.9716;
+      let lng = 77.5946;
+      let source = 'SIMULATED_GPS';
+
+      if (loc) {
+        lat = loc.latitude;
+        lng = loc.longitude;
+        source = loc.source || 'LIVE_GPS';
+      } else if (veh.id === 'V01') { lat = 13.0827; lng = 80.2707; }
+      else if (veh.id === 'V02') { lat = 12.9250; lng = 77.5890; }
+      else if (veh.id === 'V03') { lat = 12.9350; lng = 77.6200; }
+      else if (veh.id === 'V04') { lat = 12.9716; lng = 77.5946; }
+      else if (veh.id === 'V05') { lat = 13.0400; lng = 77.5900; }
+
+      return {
+        vehicleId: veh.id,
+        vehicleNumber: veh.plate_number,
+        vehicleCode: veh.vehicle_code,
+        type: veh.type,
+        driverId: driver.id || 'DRV04',
+        driverName: driver.name || veh.driver_name || 'Driver',
+        status: veh.status,
+        routeId: driver.current_route_id || (veh.id === 'V04' ? 'R03' : 'R01'),
+        latitude: lat,
+        longitude: lng,
+        accuracy: loc ? loc.accuracy : 10,
+        speed: loc ? loc.speed : 0,
+        heading: loc ? loc.heading : 0,
+        source: source,
+        timestamp: loc ? loc.timestamp : new Date().toISOString()
+      };
+    });
+
+    res.json({
+      success: true,
+      vehicles: fleetVehicles,
+      activeDisruptions,
+      deliveries: activeDeliveries
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+}
+
 module.exports = {
   login,
+  register,
+  getVehicles,
+  getRoutes,
   getDriver,
   getOwnerAlerts,
   createDisturbance,
@@ -586,5 +879,7 @@ module.exports = {
   completeDelivery,
   runSimulation,
   resetDemo,
-  loadDemoScenario
+  loadDemoScenario,
+  updateLocation,
+  getFleetLocations
 };

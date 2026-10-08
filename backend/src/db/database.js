@@ -12,9 +12,12 @@ function initSchema() {
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
       username TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
       role TEXT NOT NULL,
       name TEXT NOT NULL,
-      driver_id TEXT
+      status TEXT NOT NULL DEFAULT 'ACTIVE',
+      driver_id TEXT,
+      created_at TEXT NOT NULL
     );
 
     CREATE TABLE IF NOT EXISTS drivers (
@@ -114,6 +117,19 @@ function initSchema() {
       FOREIGN KEY (plan_id) REFERENCES recovery_plans(id),
       FOREIGN KEY (delivery_id) REFERENCES deliveries(id)
     );
+
+    CREATE TABLE IF NOT EXISTS vehicle_locations (
+      id TEXT PRIMARY KEY,
+      vehicle_id TEXT NOT NULL,
+      driver_id TEXT,
+      latitude REAL NOT NULL,
+      longitude REAL NOT NULL,
+      accuracy REAL,
+      speed REAL,
+      heading REAL,
+      source TEXT NOT NULL,
+      timestamp TEXT NOT NULL
+    );
   `);
 
   // Migration helper for existing databases
@@ -133,8 +149,28 @@ function initSchema() {
     if (!columnNames.includes('confidence')) {
       db.exec('ALTER TABLE disturbances ADD COLUMN confidence REAL');
     }
+
+    const deliveryTableInfo = db.pragma('table_info(deliveries)');
+    const deliveryCols = deliveryTableInfo.map(col => col.name);
+    if (!deliveryCols.includes('latitude')) {
+      db.exec('ALTER TABLE deliveries ADD COLUMN latitude REAL');
+    }
+    if (!deliveryCols.includes('longitude')) {
+      db.exec('ALTER TABLE deliveries ADD COLUMN longitude REAL');
+    }
+    const userTableInfo = db.pragma('table_info(users)');
+    const userCols = userTableInfo.map(col => col.name);
+    if (!userCols.includes('password_hash')) {
+      db.exec('ALTER TABLE users ADD COLUMN password_hash TEXT');
+    }
+    if (!userCols.includes('status')) {
+      db.exec("ALTER TABLE users ADD COLUMN status TEXT DEFAULT 'ACTIVE'");
+    }
+    if (!userCols.includes('created_at')) {
+      db.exec('ALTER TABLE users ADD COLUMN created_at TEXT');
+    }
   } catch (err) {
-    console.warn('Column migration note:', err.message);
+    console.error('Migration error:', err);
   }
 
   console.log('SQLite database schema initialized.');

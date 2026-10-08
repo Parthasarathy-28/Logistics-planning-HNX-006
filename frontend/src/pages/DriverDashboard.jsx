@@ -9,6 +9,8 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
   const [textDescription, setTextDescription] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [dashboardState, setDashboardState] = useState(driverData || null);
+  const [gpsStatus, setGpsStatus] = useState('WAITING'); // 'ACTIVE' | 'WAITING' | 'DENIED' | 'UNAVAILABLE' | 'UNSUPPORTED'
+  const [coords, setCoords] = useState({ latitude: 12.9716, longitude: 77.5946, source: 'SIMULATED_GPS' });
 
   const fetchLatestState = async () => {
     try {
@@ -19,9 +21,58 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
     }
   };
 
+  // Browser Geolocation API continuous watch
   useEffect(() => {
     fetchLatestState();
     const interval = setInterval(fetchLatestState, 3000);
+
+    if (!navigator.geolocation) {
+      setGpsStatus('UNSUPPORTED');
+    } else {
+      const watchId = navigator.geolocation.watchPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          const accuracy = position.coords.accuracy || 10;
+          const speed = position.coords.speed !== null ? Math.round(position.coords.speed * 3.6) : 25; // m/s to km/h
+          const heading = position.coords.heading || 90;
+
+          setCoords({ latitude: lat, longitude: lng, source: 'LIVE_GPS' });
+          setGpsStatus('ACTIVE');
+
+          // Transmit live GPS coordinates to Node.js backend
+          try {
+            await api.updateLocation({
+              vehicleId: 'V04',
+              driverId: 'DRV04',
+              latitude: lat,
+              longitude: lng,
+              accuracy,
+              speed,
+              heading,
+              source: 'LIVE_GPS'
+            });
+          } catch (err) {
+            console.warn('GPS location update send error:', err);
+          }
+        },
+        (error) => {
+          console.warn('Geolocation position error:', error.message);
+          if (error.code === error.PERMISSION_DENIED) {
+            setGpsStatus('DENIED');
+          } else {
+            setGpsStatus('UNAVAILABLE');
+          }
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }
+      );
+
+      return () => {
+        clearInterval(interval);
+        navigator.geolocation.clearWatch(watchId);
+      };
+    }
+
     return () => clearInterval(interval);
   }, []);
 
@@ -118,11 +169,23 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
           </div>
         </div>
 
-        <div className="flex items-center space-x-2 bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-700">
-          <Navigation className="w-4 h-4 text-blue-400 animate-pulse" />
+        <div className="flex items-center space-x-3 bg-slate-800/80 px-4 py-2.5 rounded-2xl border border-slate-700">
+          <Navigation className={`w-5 h-5 ${gpsStatus === 'ACTIVE' ? 'text-emerald-400 animate-pulse' : 'text-amber-400'}`} />
           <div className="text-xs">
-            <div className="text-slate-400 text-[10px] uppercase font-semibold">Simulated GPS Location</div>
-            <div className="font-mono text-slate-200 font-bold">12.9716° N, 77.5946° E (Mile 18)</div>
+            <div className="flex items-center space-x-1.5">
+              <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                gpsStatus === 'ACTIVE'
+                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                  : gpsStatus === 'DENIED'
+                  ? 'bg-red-500/20 text-red-300 border border-red-500/40'
+                  : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+              }`}>
+                {gpsStatus === 'ACTIVE' ? 'LIVE GPS ● Tracking Active' : gpsStatus === 'DENIED' ? 'Location permission required for live tracking' : 'SIMULATED GPS'}
+              </span>
+            </div>
+            <div className="font-mono text-slate-200 font-bold mt-1">
+              {coords.latitude.toFixed(4)}° N, {coords.longitude.toFixed(4)}° E
+            </div>
           </div>
         </div>
       </div>

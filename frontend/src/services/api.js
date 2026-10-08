@@ -22,7 +22,10 @@ async function request(endpoint, options = {}) {
 }
 
 export const api = {
-  login: (role, username) => request('/auth/login', { method: 'POST', body: JSON.stringify({ role, username }) }),
+  login: (username, password) => request('/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) }),
+  register: (payload) => request('/auth/register', { method: 'POST', body: JSON.stringify(payload) }),
+  getVehicles: () => request('/vehicles'),
+  getRoutes: () => request('/routes'),
   
   // Driver APIs
   getDriver: (id) => request(`/driver/${id}`),
@@ -51,6 +54,13 @@ export const api = {
   // What-If Simulation
   runSimulation: (duration_hours) => 
     request('/simulation', { method: 'POST', body: JSON.stringify({ duration_hours }) }),
+
+  // GPS Location & Map APIs
+  updateLocation: (payload) => 
+    request('/locations/update', { method: 'POST', body: JSON.stringify(payload) }),
+  
+  getFleetLocations: () => 
+    request('/locations'),
 
   // Demo Controls
   resetDemo: () => request('/demo/seed', { method: 'POST' }),

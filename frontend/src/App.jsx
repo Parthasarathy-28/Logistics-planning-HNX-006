@@ -12,9 +12,32 @@ import SimulationPage from './pages/SimulationPage';
 
 import { api } from './services/api';
 
+const OWNER_PAGES = ['owner-dashboard', 'disturbance-details', 'impact-analysis', 'recovery-decision', 'simulation'];
+const DRIVER_PAGES = ['driver-dashboard'];
+
 export default function App() {
-  const [currentUser, setCurrentUser] = useState({ role: 'DRIVER', name: 'Alex Driver' });
-  const [activePage, setActivePage] = useState('driver-dashboard');
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('routerescue_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const [activePage, setActivePage] = useState(() => {
+    try {
+      const saved = localStorage.getItem('routerescue_user');
+      if (saved) {
+        const user = JSON.parse(saved);
+        return user.role === 'DRIVER' ? 'driver-dashboard' : 'owner-dashboard';
+      }
+    } catch {
+      // ignore
+    }
+    return 'login';
+  });
+
   const [selectedDisturbanceId, setSelectedDisturbanceId] = useState('DIST_DEMO_R03');
   const [toast, setToast] = useState(null);
 
@@ -25,11 +48,46 @@ export default function App() {
     }, 4000);
   };
 
-  const handleLogin = (role, username) => {
-    const name = role === 'DRIVER' ? 'Alex Driver' : 'Sarah Jenkins (Ops Director)';
-    setCurrentUser({ role, name });
-    setActivePage(role === 'DRIVER' ? 'driver-dashboard' : 'owner-dashboard');
-    showToast(`Logged in as ${name}`, 'success');
+  // Enforce role route protection
+  useEffect(() => {
+    if (!currentUser) {
+      if (activePage !== 'login') {
+        setActivePage('login');
+      }
+      return;
+    }
+
+    if (currentUser.role === 'DRIVER' && OWNER_PAGES.includes(activePage)) {
+      setActivePage('driver-dashboard');
+      showToast('Access Denied: Drivers cannot access Owner Operations.', 'error');
+    } else if (currentUser.role === 'OWNER' && DRIVER_PAGES.includes(activePage)) {
+      setActivePage('owner-dashboard');
+      showToast('Access Denied: Operations Owner cannot access Driver Portal.', 'error');
+    }
+  }, [currentUser, activePage]);
+
+  const handleLoginSuccess = (user) => {
+    setCurrentUser(user);
+    try {
+      localStorage.setItem('routerescue_user', JSON.stringify(user));
+    } catch (e) {
+      console.error('Failed to save session to localStorage:', e);
+    }
+
+    const targetPage = user.role === 'DRIVER' ? 'driver-dashboard' : 'owner-dashboard';
+    setActivePage(targetPage);
+    showToast(`✓ Logged in as ${user.name} (${user.role})`, 'success');
+  };
+
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem('routerescue_user');
+    } catch (e) {
+      console.error('Failed to clear session from localStorage:', e);
+    }
+    setCurrentUser(null);
+    setActivePage('login');
+    showToast('Logged out successfully.', 'info');
   };
 
   const handleLoadDemo = async () => {
@@ -39,7 +97,9 @@ export default function App() {
         setSelectedDisturbanceId(res.disturbance.id);
       }
       showToast('✓ Demo Scenario Loaded: Critical Engine Issue on Route R03 (Vehicle V04)!', 'success');
-      setActivePage(currentUser?.role === 'DRIVER' ? 'driver-dashboard' : 'owner-dashboard');
+      if (currentUser) {
+        setActivePage(currentUser.role === 'DRIVER' ? 'driver-dashboard' : 'owner-dashboard');
+      }
     } catch (err) {
       showToast(err.message || 'Failed to load demo scenario', 'error');
     }
@@ -49,7 +109,9 @@ export default function App() {
     try {
       await api.resetDemo();
       showToast('✓ Database reset to clean baseline state.', 'info');
-      setActivePage(currentUser?.role === 'DRIVER' ? 'driver-dashboard' : 'owner-dashboard');
+      if (currentUser) {
+        setActivePage(currentUser.role === 'DRIVER' ? 'driver-dashboard' : 'owner-dashboard');
+      }
     } catch (err) {
       showToast(err.message || 'Failed to reset demo', 'error');
     }
@@ -60,72 +122,92 @@ export default function App() {
       {/* Navigation Bar */}
       <Navbar
         currentUser={currentUser}
-        setCurrentUser={setCurrentUser}
+        onLogout={handleLogout}
         onLoadDemo={handleLoadDemo}
         onResetDemo={handleResetDemo}
         activePage={activePage}
-        setActivePage={setActivePage}
+        setActivePage={(page) => {
+          if (!currentUser && page !== 'login') {
+            setActivePage('login');
+            showToast('Please log in to continue.', 'error');
+            return;
+          }
+          if (currentUser?.role === 'DRIVER' && OWNER_PAGES.includes(page)) {
+            showToast('Access Denied: Drivers cannot access Owner pages.', 'error');
+            return;
+          }
+          if (currentUser?.role === 'OWNER' && DRIVER_PAGES.includes(page)) {
+            showToast('Access Denied: Owners cannot access Driver pages.', 'error');
+            return;
+          }
+          setActivePage(page);
+        }}
       />
 
       {/* Main Page Container */}
       <main className="flex-1 pb-12">
-        {activePage === 'login' && <LoginPage onLogin={handleLogin} />}
+        {!currentUser || activePage === 'login' ? (
+          <LoginPage onLoginSuccess={handleLoginSuccess} />
+        ) : (
+          <>
+            {activePage === 'driver-dashboard' && (
+              <DriverDashboard
+                driverData={currentUser}
+                onReportSuccess={(disturbance) => {
+                  setSelectedDisturbanceId(disturbance.id);
+                  showToast('Report submitted! Disturbance registered in database.', 'success');
+                }}
+                showToast={showToast}
+              />
+            )}
 
-        {activePage === 'driver-dashboard' && (
-          <DriverDashboard
-            onReportSuccess={(disturbance) => {
-              setSelectedDisturbanceId(disturbance.id);
-              showToast('Report submitted! Switch to Owner view to inspect impact.', 'success');
-            }}
-            showToast={showToast}
-          />
+            {activePage === 'owner-dashboard' && (
+              <OwnerDashboard
+                onViewDetails={(id) => {
+                  setSelectedDisturbanceId(id);
+                  setActivePage('disturbance-details');
+                }}
+                onViewImpact={(id) => {
+                  setSelectedDisturbanceId(id);
+                  setActivePage('impact-analysis');
+                }}
+                showToast={showToast}
+              />
+            )}
+
+            {activePage === 'disturbance-details' && (
+              <DisturbanceDetailsPage
+                disturbanceId={selectedDisturbanceId}
+                onViewImpact={(id) => {
+                  setSelectedDisturbanceId(id);
+                  setActivePage('impact-analysis');
+                }}
+              />
+            )}
+
+            {activePage === 'impact-analysis' && (
+              <ImpactAnalysisPage
+                disturbanceId={selectedDisturbanceId}
+                onGenerateRecovery={(id) => {
+                  setSelectedDisturbanceId(id);
+                  setActivePage('recovery-decision');
+                }}
+              />
+            )}
+
+            {activePage === 'recovery-decision' && (
+              <RecoveryDecisionPage
+                disturbanceId={selectedDisturbanceId}
+                onSendSuccess={() => {
+                  showToast('Plan Sent! Driver can now view and acknowledge.', 'success');
+                }}
+                showToast={showToast}
+              />
+            )}
+
+            {activePage === 'simulation' && <SimulationPage showToast={showToast} />}
+          </>
         )}
-
-        {activePage === 'owner-dashboard' && (
-          <OwnerDashboard
-            onViewDetails={(id) => {
-              setSelectedDisturbanceId(id);
-              setActivePage('disturbance-details');
-            }}
-            onViewImpact={(id) => {
-              setSelectedDisturbanceId(id);
-              setActivePage('impact-analysis');
-            }}
-            showToast={showToast}
-          />
-        )}
-
-        {activePage === 'disturbance-details' && (
-          <DisturbanceDetailsPage
-            disturbanceId={selectedDisturbanceId}
-            onViewImpact={(id) => {
-              setSelectedDisturbanceId(id);
-              setActivePage('impact-analysis');
-            }}
-          />
-        )}
-
-        {activePage === 'impact-analysis' && (
-          <ImpactAnalysisPage
-            disturbanceId={selectedDisturbanceId}
-            onGenerateRecovery={(id) => {
-              setSelectedDisturbanceId(id);
-              setActivePage('recovery-decision');
-            }}
-          />
-        )}
-
-        {activePage === 'recovery-decision' && (
-          <RecoveryDecisionPage
-            disturbanceId={selectedDisturbanceId}
-            onSendSuccess={() => {
-              showToast('Plan Sent! You can now switch to Driver view to acknowledge.', 'success');
-            }}
-            showToast={showToast}
-          />
-        )}
-
-        {activePage === 'simulation' && <SimulationPage showToast={showToast} />}
       </main>
 
       {/* Footer */}
