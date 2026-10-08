@@ -214,8 +214,17 @@ function getRoutes(req, res) {
 // 2. Driver Info & Active Dashboard State
 function getDriver(req, res) {
   try {
-    const driverId = req.params.id || 'DRV04';
-    const driver = db.prepare('SELECT * FROM drivers WHERE id = ?').get(driverId);
+    const paramId = req.params.id;
+    let driver = null;
+    if (paramId && paramId !== 'undefined') {
+      driver = db.prepare('SELECT * FROM drivers WHERE id = ? OR user_id = ?').get(paramId, paramId);
+    }
+    if (!driver) {
+      driver = db.prepare('SELECT * FROM drivers WHERE id = ?').get('DRV04');
+    }
+    if (!driver) {
+      driver = db.prepare('SELECT * FROM drivers ORDER BY rowid DESC LIMIT 1').get();
+    }
     if (!driver) {
       return res.status(404).json({ error: 'Driver not found' });
     }
@@ -231,9 +240,9 @@ function getDriver(req, res) {
     // Check for active disturbance reported by this driver
     const disturbance = db.prepare(`
       SELECT * FROM disturbances 
-      WHERE driver_id = ? 
+      WHERE driver_id = ? OR driver_id = ?
       ORDER BY timestamp DESC LIMIT 1
-    `).get(driverId);
+    `).get(driver.id, driver.user_id);
 
     // Check for active recovery plan sent to driver
     let recoveryPlan = null;
@@ -275,10 +284,12 @@ function getOwnerAlerts(req, res) {
     const alerts = activeDisturbances.map(dist => {
       const vehicle = db.prepare('SELECT * FROM vehicles WHERE id = ?').get(dist.vehicle_id);
       const route = db.prepare('SELECT * FROM routes WHERE id = ?').get(dist.route_id);
+      const driver = db.prepare('SELECT * FROM drivers WHERE id = ? OR user_id = ?').get(dist.driver_id, dist.driver_id);
       const plan = db.prepare('SELECT * FROM recovery_plans WHERE disturbance_id = ? LIMIT 1').get(dist.id);
 
       return {
         ...dist,
+        driver_name: driver ? driver.name : dist.driver_name,
         vehicle_code: vehicle ? vehicle.vehicle_code : dist.vehicle_id,
         route_code: route ? route.route_code : dist.route_id,
         has_plan: !!plan,
@@ -307,6 +318,7 @@ function createDisturbance(req, res) {
   try {
     const {
       driver_id = 'DRV04',
+      driver_name = null,
       vehicle_id = 'V04',
       route_id = 'R03',
       input_method = 'TAP',
@@ -322,9 +334,14 @@ function createDisturbance(req, res) {
       confidence = null
     } = req.body;
 
-    const driver = db.prepare('SELECT * FROM drivers WHERE id = ?').get(driver_id);
+    const driver = db.prepare('SELECT * FROM drivers WHERE id = ? OR user_id = ?').get(driver_id, driver_id);
     const vehicle = db.prepare('SELECT * FROM vehicles WHERE id = ?').get(vehicle_id);
     const route = db.prepare('SELECT * FROM routes WHERE id = ?').get(route_id);
+
+    const actualDriverId = driver ? driver.id : driver_id;
+    const actualDriverName = driver ? driver.name : (driver_name || 'Driver');
+    const actualVehicleId = vehicle ? vehicle.id : (driver ? driver.current_vehicle_id : vehicle_id);
+    const actualRouteId = route ? route.id : (driver ? driver.current_route_id : route_id);
 
     const disturbanceId = 'DIST_' + Date.now();
     const disturbanceCode = 'DST-' + String(Math.floor(Math.random() * 900) + 100);
@@ -342,12 +359,12 @@ function createDisturbance(req, res) {
     insert.run(
       disturbanceId,
       disturbanceCode,
-      driver_id,
-      driver ? driver.name : 'Alex Driver',
-      vehicle_id,
-      vehicle ? vehicle.vehicle_code : 'V04',
-      route_id,
-      route ? route.name : 'R03',
+      actualDriverId,
+      actualDriverName,
+      actualVehicleId,
+      vehicle ? vehicle.vehicle_code : actualVehicleId,
+      actualRouteId,
+      route ? route.name : actualRouteId,
       input_method,
       category,
       type,
@@ -363,10 +380,10 @@ function createDisturbance(req, res) {
       confidence ? parseFloat(confidence) : null
     );
 
-    // Update vehicle and route status to reflect disruption
-    db.prepare("UPDATE vehicles SET status = 'DISRUPTED' WHERE id = ?").run(vehicle_id);
-    db.prepare("UPDATE routes SET status = 'DISRUPTED' WHERE id = ?").run(route_id);
-    db.prepare("UPDATE drivers SET status = 'DISRUPTED' WHERE id = ?").run(driver_id);
+    // Update vehicle, route, driver status
+    db.prepare("UPDATE vehicles SET status = 'DISRUPTED' WHERE id = ?").run(actualVehicleId);
+    db.prepare("UPDATE routes SET status = 'DISRUPTED' WHERE id = ?").run(actualRouteId);
+    db.prepare("UPDATE drivers SET status = 'DISRUPTED' WHERE id = ?").run(actualDriverId);
 
     const created = db.prepare('SELECT * FROM disturbances WHERE id = ?').get(disturbanceId);
 

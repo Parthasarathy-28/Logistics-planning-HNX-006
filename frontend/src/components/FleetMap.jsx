@@ -80,50 +80,50 @@ export default function FleetMap({ vehicles = [], disruptions = [], deliveries =
   ];
 
   return (
-    <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-md space-y-4">
+    <div className="command-card p-6 space-y-4 text-slate-900">
       {/* Fleet Summary Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-200 pb-3">
         <div>
           <div className="flex items-center space-x-2">
-            <h3 className="text-base font-extrabold text-slate-900">🗺️ LIVE FLEET & GEOGRAPHIC MAP</h3>
-            <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full border border-emerald-300">
+            <h3 className="text-base font-display font-bold text-slate-900">🗺️ LIVE FLEET & GEOGRAPHIC MAP</h3>
+            <span className="text-[10px] bg-emerald-50 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full border border-emerald-300">
               OpenStreetMap Connected
             </span>
           </div>
-          <p className="text-xs text-slate-500 font-medium">Real-time GPS vehicle tracking and interactive spatial disruption mapping</p>
+          <p className="text-xs text-slate-700 font-medium">Real-time GPS vehicle tracking and interactive spatial disruption mapping</p>
         </div>
 
         {/* Compact Summary Metrics */}
         <div className="flex items-center space-x-2 text-xs">
-          <div className="bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
-            <span className="text-slate-500 text-[10px] font-bold block">Active Fleet</span>
-            <span className="font-extrabold text-slate-900">{vehicles.length} Vehicles</span>
+          <div className="bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
+            <span className="text-slate-600 text-[10px] font-bold block">Active Fleet</span>
+            <span className="font-display font-bold text-slate-900">{vehicles.length} Vehicles</span>
           </div>
-          <div className="bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 text-emerald-900">
+          <div className="bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 text-emerald-900 shadow-sm">
             <span className="text-emerald-700 text-[10px] font-bold block">Live GPS</span>
-            <span className="font-extrabold">{liveCount} Active</span>
+            <span className="font-display font-bold">{liveCount} Active</span>
           </div>
-          <div className="bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-200 text-blue-900">
+          <div className="bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-200 text-blue-900 shadow-sm">
             <span className="text-blue-700 text-[10px] font-bold block">Simulated GPS</span>
-            <span className="font-extrabold">{simCount} Fleet</span>
+            <span className="font-display font-bold">{simCount} Fleet</span>
           </div>
-          <div className="bg-red-50 px-3 py-1.5 rounded-xl border border-red-200 text-red-900">
+          <div className="bg-red-50 px-3 py-1.5 rounded-xl border border-red-200 text-red-900 shadow-sm">
             <span className="text-red-700 text-[10px] font-bold block">Disruptions</span>
-            <span className="font-extrabold">{activeDisruptionsCount} Active</span>
+            <span className="font-display font-bold">{activeDisruptionsCount} Active</span>
           </div>
         </div>
       </div>
 
       {/* Map Legend */}
       <div className="flex flex-wrap items-center gap-4 text-xs font-semibold bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-        <span className="text-slate-500 text-[10px] uppercase font-bold">Legend:</span>
+        <span className="text-slate-600 text-[10px] uppercase font-bold">Legend:</span>
         <div className="flex items-center space-x-1 text-emerald-700">
           <span>🟢 Active Vehicle</span>
         </div>
         <div className="flex items-center space-x-1 text-blue-700">
           <span>🔵 Standby Vehicle (V05)</span>
         </div>
-        <div className="flex items-center space-x-1 text-red-600">
+        <div className="flex items-center space-x-1 text-red-700">
           <span>🔴 Active Disruption</span>
         </div>
         <div className="flex items-center space-x-1 text-amber-700">
@@ -132,7 +132,7 @@ export default function FleetMap({ vehicles = [], disruptions = [], deliveries =
       </div>
 
       {/* Leaflet Map Container */}
-      <div className="h-[420px] w-full rounded-2xl overflow-hidden border border-slate-200 shadow-inner relative z-0">
+      <div className="h-[420px] w-full rounded-2xl overflow-hidden border border-slate-200 shadow-sm relative z-0">
         <MapContainer
           center={defaultCenter}
           zoom={11}

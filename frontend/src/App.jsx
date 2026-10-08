@@ -118,7 +118,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col">
+    <div className="min-h-screen bg-white text-slate-900 font-sans flex flex-col selection:bg-blue-600 selection:text-white">
       {/* Navigation Bar */}
       <Navbar
         currentUser={currentUser}
@@ -210,11 +210,15 @@ export default function App() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="bg-slate-900 text-slate-400 py-4 px-6 text-center text-xs border-t border-slate-800">
-        <p className="font-semibold">
-          ROUTERESCUE — Disruption-Aware Logistics Decision Support System • React + Vite + Node.js + Express + SQLite
-        </p>
+      <footer className="bg-white text-slate-500 py-5 px-6 text-center text-xs border-t border-slate-200/80 shadow-sm">
+        <div className="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="font-semibold text-slate-600">
+            <span className="font-black text-slate-900 tracking-tight">ROUTERESCUE</span> — Disruption-Aware Logistics Decision Support System
+          </p>
+          <p className="text-[11px] text-slate-400 font-mono">
+            React • Vite • Node.js • Express • SQLite • Leaflet GPS
+          </p>
+        </div>
       </footer>
 
       {/* Toast Notifications */}

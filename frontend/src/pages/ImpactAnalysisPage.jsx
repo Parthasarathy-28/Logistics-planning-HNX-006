@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import VisualCascade from '../components/VisualCascade';
-import { ShieldAlert, ArrowRight, Package, Clock, AlertTriangle, Layers } from 'lucide-react';
+import { ShieldAlert, ArrowRight, Package, Clock, AlertTriangle, Layers, Zap, Truck, MapPin } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function ImpactAnalysisPage({ disturbanceId, onGenerateRecovery }) {
@@ -23,7 +23,12 @@ export default function ImpactAnalysisPage({ disturbanceId, onGenerateRecovery }
   }, [disturbanceId]);
 
   if (loading) {
-    return <div className="p-12 text-center text-slate-500 font-bold">Running Intelligence Impact Analysis...</div>;
+    return (
+      <div className="max-w-6xl mx-auto p-12 text-center space-y-4">
+        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto" />
+        <p className="text-sm font-extrabold text-slate-700 uppercase tracking-wider">Running Intelligence Impact Analysis...</p>
+      </div>
+    );
   }
 
   const deliveries = impactData?.analyzedDeliveries || [
@@ -39,47 +44,59 @@ export default function ImpactAnalysisPage({ disturbanceId, onGenerateRecovery }
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6 space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600 bg-indigo-100 px-3 py-1 rounded-full">
-            Impact Analysis Engine
-          </span>
-          <h1 className="text-2xl font-black text-slate-900 mt-2">DETERMINISTIC IMPACT & SLA RISK ANALYSIS</h1>
-          <p className="text-xs text-slate-500 font-medium">Traces Disturbance → Route → Vehicle → Deliveries → SLA Deadlines</p>
+    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 space-y-6 animate-fade-in text-slate-900">
+      {/* COMMAND HEADER */}
+      <div className="command-card rail-blue p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div className="space-y-2">
+          <div className="flex items-center space-x-3">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200 flex items-center space-x-1">
+              <Zap className="w-3.5 h-3.5 text-blue-600" />
+              <span>IMPACT ANALYSIS ENGINE</span>
+            </span>
+            <span className="text-xs text-slate-600 font-mono font-medium">DETERMINISTIC MODEL</span>
+          </div>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+            IMPACT & SLA RISK CASCADE
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-700 font-medium">
+            Propagates physical incident telemetry across route geometry, vehicle assignments, package SLAs, and customer deadlines.
+          </p>
         </div>
 
         <button
           onClick={() => onGenerateRecovery(disturbanceId)}
-          className="px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs rounded-xl shadow-lg transition-all flex items-center space-x-2 uppercase tracking-wide shrink-0"
+          className="px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center space-x-2.5 uppercase tracking-wider shrink-0 active:scale-95 border border-blue-500/30"
         >
           <span>GENERATE RECOVERY OPTIONS</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>
 
-      {/* Summary Stat Badges */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-          <span className="text-xs text-slate-400 font-medium uppercase block">Affected Route</span>
-          <span className="text-lg font-black text-slate-900">1 Route (R03)</span>
+      {/* SUMMARY METRIC CARDS */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="command-card p-5 space-y-1">
+          <span className="text-slate-600 text-[10px] font-bold uppercase tracking-wider block">Affected Corridor</span>
+          <span className="font-display text-xl font-bold text-slate-900 block">Route R03</span>
+          <span className="text-[11px] text-blue-600 font-semibold block">Industrial Corridor South</span>
         </div>
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-          <span className="text-xs text-slate-400 font-medium uppercase block">Affected Vehicle</span>
-          <span className="text-lg font-black text-slate-900">1 Vehicle (V04)</span>
+        <div className="command-card p-5 space-y-1">
+          <span className="text-slate-600 text-[10px] font-bold uppercase tracking-wider block">Affected Vehicle</span>
+          <span className="font-display text-xl font-bold text-slate-900 block">Vehicle V04</span>
+          <span className="text-[11px] text-slate-600 font-medium block">KA-04-ED-4004</span>
         </div>
-        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-          <span className="text-xs text-slate-400 font-medium uppercase block">Affected Deliveries</span>
-          <span className="text-lg font-black text-blue-600">{summary.total_affected} Deliveries</span>
+        <div className="command-card p-5 space-y-1">
+          <span className="text-slate-600 text-[10px] font-bold uppercase tracking-wider block">Affected Deliveries</span>
+          <span className="font-display text-xl font-bold text-blue-600 block">{summary.total_affected} Shipments</span>
+          <span className="text-[11px] text-slate-600 font-medium block">D101, D102, D103</span>
         </div>
-        <div className="bg-red-50 p-4 rounded-2xl border border-red-200 shadow-sm">
-          <span className="text-xs text-red-600 font-bold uppercase block">Critical Deadline Risk</span>
-          <span className="text-lg font-black text-red-700">{summary.critical_risks} Shipment (D101)</span>
+        <div className="command-card rail-red p-5 space-y-1 bg-red-50/30">
+          <span className="text-red-700 text-[10px] font-bold uppercase tracking-wider block">SLA Breach Risk</span>
+          <span className="font-display text-xl font-bold text-red-600 block">{summary.critical_risks} Shipment</span>
+          <span className="text-[11px] text-red-700 font-bold block">D101 (Apex Tech)</span>
         </div>
       </div>
 
-      {/* Visual Dependency Cascade */}
+      {/* VISUAL DEPENDENCY CASCADE */}
       <VisualCascade
         disturbance={impactData?.disturbance}
         routeCode={impactData?.route?.route_code || 'R03'}
@@ -94,50 +111,53 @@ export default function ImpactAnalysisPage({ disturbanceId, onGenerateRecovery }
         }))}
       />
 
-      {/* Risk Calculation Table */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h3 className="font-extrabold text-base text-slate-900">Delivery SLA Risk Breakdown</h3>
-          <span className="text-xs font-mono bg-slate-100 px-2.5 py-1 rounded font-bold text-slate-700">
-            Calculated Disruption Overhead: +{summary.total_delay_min} mins
+      {/* RISK CALCULATION TABLE */}
+      <div className="command-card p-6 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
+          <div>
+            <h3 className="font-display font-bold text-base text-slate-900">DELIVERY SLA RISK BREAKDOWN</h3>
+            <p className="text-xs text-slate-700 font-medium">Deterministic recalculation of customer arrival windows based on +48 min delay overhead</p>
+          </div>
+          <span className="text-xs font-mono bg-red-50 text-red-700 border border-red-200 px-3 py-1 rounded-lg font-bold self-start sm:self-auto">
+            Disruption Overhead: +{summary.total_delay_min} mins
           </span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 text-slate-500 uppercase font-bold text-[10px] tracking-wider border-b border-slate-200">
+            <thead className="bg-slate-50 text-slate-700 uppercase font-bold text-[10px] tracking-wider border-b border-slate-200">
               <tr>
-                <th className="p-3">Delivery Code</th>
-                <th className="p-3">Customer</th>
-                <th className="p-3">Deadline</th>
-                <th className="p-3">Original ETA</th>
-                <th className="p-3">New Calculated ETA</th>
-                <th className="p-3">Risk Level</th>
-                <th className="p-3">Explanation</th>
+                <th className="p-3.5">Delivery Code</th>
+                <th className="p-3.5">Customer</th>
+                <th className="p-3.5">Deadline SLA</th>
+                <th className="p-3.5">Original ETA</th>
+                <th className="p-3.5">Calculated New ETA</th>
+                <th className="p-3.5">Risk Rating</th>
+                <th className="p-3.5">Impact Explanation</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-medium">
+            <tbody className="divide-y divide-slate-200 font-medium text-slate-800">
               {deliveries.map((item) => (
-                <tr key={item.id} className={item.risk_level === 'CRITICAL' ? 'bg-red-50/60 font-bold' : ''}>
-                  <td className="p-3 font-extrabold text-slate-900">{item.delivery_code}</td>
-                  <td className="p-3 text-slate-700">{item.customer_name}</td>
-                  <td className="p-3 font-mono font-bold text-slate-900">{item.deadline}</td>
-                  <td className="p-3 font-mono text-slate-500">{item.current_eta || item.original_eta}</td>
-                  <td className={`p-3 font-mono font-extrabold ${item.risk_level === 'CRITICAL' ? 'text-red-600' : 'text-slate-800'}`}>
+                <tr key={item.id} className={item.risk_level === 'CRITICAL' ? 'bg-red-50/50 font-bold' : 'hover:bg-slate-50/80 transition-colors'}>
+                  <td className="p-3.5 font-bold text-slate-900">{item.delivery_code}</td>
+                  <td className="p-3.5 text-slate-700">{item.customer_name}</td>
+                  <td className="p-3.5 font-mono font-bold text-slate-900">{item.deadline}</td>
+                  <td className="p-3.5 font-mono text-slate-600">{item.current_eta || item.original_eta}</td>
+                  <td className={`p-3.5 font-mono font-bold ${item.risk_level === 'CRITICAL' ? 'text-red-600' : 'text-slate-900'}`}>
                     {item.new_eta}
                   </td>
-                  <td className="p-3">
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-black ${
+                  <td className="p-3.5">
+                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider ${
                       item.risk_level === 'CRITICAL' 
-                        ? 'bg-red-600 text-white' 
+                        ? 'bg-red-600 text-white shadow-sm' 
                         : item.risk_level === 'HIGH'
-                        ? 'bg-amber-500 text-slate-950'
-                        : 'bg-emerald-100 text-emerald-800'
+                        ? 'bg-amber-100 text-amber-900 border border-amber-300 font-bold'
+                        : 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                     }`}>
                       {item.risk_level}
                     </span>
                   </td>
-                  <td className="p-3 text-slate-600 font-sans text-[11px] max-w-xs">{item.risk_reason}</td>
+                  <td className="p-3.5 text-slate-700 font-sans text-xs max-w-xs">{item.risk_reason}</td>
                 </tr>
               ))}
             </tbody>
@@ -147,3 +167,4 @@ export default function ImpactAnalysisPage({ disturbanceId, onGenerateRecovery }
     </div>
   );
 }
+

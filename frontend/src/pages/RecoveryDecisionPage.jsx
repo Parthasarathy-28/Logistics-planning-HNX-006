@@ -64,7 +64,12 @@ export default function RecoveryDecisionPage({ disturbanceId, onSendSuccess, sho
   };
 
   if (loading) {
-    return <div className="p-12 text-center text-slate-500 font-bold">Generating Recovery Intelligence Options & Scores...</div>;
+    return (
+      <div className="max-w-6xl mx-auto p-12 text-center space-y-4">
+        <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
+        <p className="text-sm font-extrabold text-slate-700 uppercase tracking-wider">Generating Recovery Intelligence Options & Scores...</p>
+      </div>
+    );
   }
 
   const options = recoveryData?.options || [];
@@ -72,169 +77,184 @@ export default function RecoveryDecisionPage({ disturbanceId, onSendSuccess, sho
   const explanation = recoveryData?.explanation || "CHANGE VEHICLE was selected because it produces the lowest estimated delay (10 min) and removes the critical deadline risk.";
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6 space-y-6">
-      {/* Header */}
-      <div>
-        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">
-          Recovery Intelligence Engine
-        </span>
-        <h1 className="text-2xl font-black text-slate-900 mt-2">ALTERNATIVE ACTIONS & RECOVERY DECISION</h1>
-        <p className="text-xs text-slate-500 font-medium">Deterministic scoring engine evaluates delay, SLA risk, and vehicle readiness</p>
+    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 space-y-6 animate-fade-in text-slate-900">
+      {/* COMMAND HEADER */}
+      <div className="command-card rail-green p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div className="space-y-2">
+          <div className="flex items-center space-x-3">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 flex items-center space-x-1">
+              <Zap className="w-3.5 h-3.5 text-emerald-600" />
+              <span>RECOVERY INTELLIGENCE ENGINE</span>
+            </span>
+            <span className="text-xs text-slate-600 font-mono font-medium">MULTI-OBJECTIVE OPTIMIZER</span>
+          </div>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+            RECOVERY DECISION & EXECUTION
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-700 font-medium">
+            Evaluates alternative dispatch vectors, minimizes total delay overhead, and enforces customer SLA compliance.
+          </p>
+        </div>
       </div>
 
-      {/* RECOMMENDED ACTION BANNER (Requirement #13 & #30 Explainability) */}
+      {/* RECOMMENDED ACTION BANNER */}
       {recommended && (
-        <div className="bg-gradient-to-r from-blue-900 via-slate-900 to-slate-950 text-white rounded-3xl p-6 border-2 border-blue-500 shadow-xl space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <div className="flex items-center space-x-3">
-              <div className="bg-blue-600 text-white p-2.5 rounded-2xl shadow-lg">
-                <Award className="w-7 h-7" />
+        <div className="command-card rail-blue p-6 sm:p-8 border-2 border-blue-500 shadow-xl space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+            <div className="flex items-center space-x-4">
+              <div className="bg-blue-600 text-white p-3.5 rounded-2xl shadow-md">
+                <Award className="w-8 h-8" />
               </div>
               <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-blue-400 bg-blue-950/80 px-2 py-0.5 rounded border border-blue-800">
-                  TOP RECOMMENDATION
+                <span className="text-[10px] font-bold uppercase tracking-widest text-blue-800 bg-blue-50 px-2.5 py-0.5 rounded border border-blue-200">
+                  ✦ RECOMMENDED RECOVERY ACTION
                 </span>
-                <h2 className="text-xl font-extrabold text-white mt-0.5">{recommended.title}</h2>
+                <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900 mt-1">{recommended.title}</h2>
               </div>
             </div>
 
-            <div className="text-right">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block">Recovery Score</span>
-              <span className="text-2xl font-black text-emerald-400">{recommended.score}/100</span>
+            <div className="bg-slate-50 px-5 py-2.5 rounded-2xl border border-slate-200 text-right self-start sm:self-auto shadow-sm">
+              <span className="text-[10px] uppercase font-bold text-slate-600 block">RECOVERY SCORE</span>
+              <span className="font-display text-3xl font-bold text-emerald-600">{recommended.score} <span className="text-xs text-slate-500 font-normal">/ 100</span></span>
             </div>
           </div>
 
-          {/* Explainability Callout (Requirement #30) */}
-          <div className="bg-blue-950/70 border border-blue-500/40 rounded-2xl p-4 space-y-2">
-            <div className="flex items-center space-x-2 text-blue-300 text-xs font-extrabold">
-              <Info className="w-4 h-4 text-blue-400 shrink-0" />
-              <span>EXPLAINABILITY: WHY THIS ACTION WAS SELECTED</span>
+          {/* Explainability Callout */}
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 space-y-2">
+            <div className="flex items-center space-x-2 text-blue-700 text-xs font-bold">
+              <Info className="w-4 h-4 text-blue-600 shrink-0" />
+              <span>DECISION REASONING & EXPLAINABILITY</span>
             </div>
-            <p className="text-xs text-slate-200 leading-relaxed font-medium">
+            <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
               "{explanation}"
             </p>
           </div>
 
           {/* Key Recommended Action Details */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-            <div>
-              <span className="text-slate-400 text-[10px] uppercase font-bold block">Action Type</span>
-              <span className="font-extrabold text-blue-400">{recommended.action_type}</span>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs bg-slate-50 p-5 rounded-2xl border border-slate-200">
+            <div className="space-y-1">
+              <span className="text-slate-600 text-[10px] uppercase font-bold block">Strategy Type</span>
+              <span className="font-display font-bold text-blue-600 text-sm block">{recommended.action_type}</span>
             </div>
-            <div>
-              <span className="text-slate-400 text-[10px] uppercase font-bold block">Estimated Delay</span>
-              <span className="font-extrabold text-emerald-400">{recommended.estimated_delay_min} Minutes</span>
+            <div className="space-y-1">
+              <span className="text-slate-600 text-[10px] uppercase font-bold block">Expected Delay</span>
+              <span className="font-display font-bold text-emerald-600 text-sm block">+{recommended.estimated_delay_min} Minutes</span>
             </div>
-            <div>
-              <span className="text-slate-400 text-[10px] uppercase font-bold block">Reassigned Delivery</span>
-              <span className="font-bold text-white">D101 → Standby V05</span>
+            <div className="space-y-1">
+              <span className="text-slate-600 text-[10px] uppercase font-bold block">Reassigned Dispatch</span>
+              <span className="font-display font-bold text-slate-900 text-sm block">D101 → Standby V05</span>
             </div>
-            <div>
-              <span className="text-slate-400 text-[10px] uppercase font-bold block">Remaining Risks</span>
-              <span className="font-extrabold text-emerald-400">0 Critical Risks</span>
+            <div className="space-y-1">
+              <span className="text-slate-600 text-[10px] uppercase font-bold block">Remaining Risks</span>
+              <span className="font-display font-bold text-emerald-600 text-sm block">0 SLA Breaches</span>
             </div>
           </div>
 
-          {/* Owner Decision Action Buttons (Requirement #14) */}
+          {/* Owner Decision Action Buttons */}
           <div className="pt-2 flex flex-wrap gap-3">
             <button
               disabled={submitting}
               onClick={() => handleDecision('ACCEPT', recommended)}
-              className="flex-1 min-w-[140px] py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2 uppercase tracking-wide"
+              className="flex-1 min-w-[160px] py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 uppercase tracking-wider active:scale-95 border border-emerald-500/30"
             >
               <Check className="w-5 h-5 stroke-[3]" />
-              <span>✓ Accept Action</span>
+              <span>APPLY RECOVERY ACTION</span>
             </button>
 
             <button
               disabled={submitting}
               onClick={() => handleDecision('REJECT')}
-              className="py-3.5 px-6 bg-slate-800 hover:bg-red-900/60 text-red-300 font-bold text-xs rounded-xl border border-red-500/30 transition-all flex items-center justify-center space-x-2"
+              className="py-3.5 px-6 bg-white hover:bg-red-50 text-red-700 font-bold text-xs rounded-xl border border-red-200 shadow-sm transition-all flex items-center justify-center space-x-2 active:scale-95"
             >
               <X className="w-4 h-4" />
-              <span>✕ Reject</span>
+              <span>REJECT</span>
             </button>
 
             <button
               disabled={submitting}
               onClick={() => handleDecision('MODIFY')}
-              className="py-3.5 px-6 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-xl border border-slate-700 transition-all flex items-center justify-center space-x-2"
+              className="py-3.5 px-6 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl border border-slate-200 shadow-sm transition-all flex items-center justify-center space-x-2 active:scale-95"
             >
               <Edit3 className="w-4 h-4" />
-              <span>✎ Modify Action</span>
+              <span>MODIFY ACTION</span>
             </button>
           </div>
         </div>
       )}
 
-      {/* NEW PLAN CREATED CARD & SEND TO DRIVER BUTTON (Requirements #15 & #16) */}
+      {/* NEW PLAN CREATED CARD & SEND TO DRIVER BUTTON */}
       {(planStatus === 'APPROVED' || planStatus === 'SENT' || planStatus === 'DRIVER_ACKNOWLEDGED' || planStatus === 'IN_PROGRESS' || planStatus === 'COMPLETED') && (
-        <div className="bg-emerald-900 text-white rounded-3xl p-6 border-2 border-emerald-500 shadow-xl space-y-4">
-          <div className="flex items-center justify-between border-b border-emerald-800 pb-3">
+        <div className="command-card rail-green p-6 sm:p-8 border-2 border-emerald-500 shadow-xl space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
             <div className="flex items-center space-x-3">
-              <div className="bg-emerald-500 text-slate-950 p-2.5 rounded-2xl">
-                <CheckCircle2 className="w-6 h-6" />
+              <div className="bg-emerald-600 text-white p-3 rounded-2xl shadow-md">
+                <CheckCircle2 className="w-7 h-7" />
               </div>
               <div>
-                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-300">
-                  NEW PLAN CREATED
+                <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded border border-emerald-300">
+                  RECOVERY PLAN APPROVED
                 </span>
-                <h3 className="text-lg font-extrabold text-white mt-0.5">Approved Delivery Recovery Plan</h3>
+                <h3 className="font-display text-xl font-bold text-slate-900 mt-1">Authorized Fleet Dispatch Plan</h3>
               </div>
             </div>
-            <span className="text-xs font-bold bg-emerald-500 text-slate-950 px-3 py-1 rounded-full uppercase">
+            <span className="text-xs font-bold bg-emerald-600 text-white px-4 py-1.5 rounded-full uppercase tracking-wider self-start sm:self-auto shadow-sm">
               STATUS: {planStatus}
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-emerald-950/80 p-4 rounded-xl border border-emerald-800 text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-200 text-xs">
             <div>
-              <span className="text-emerald-400 font-bold block text-[10px] uppercase">Replacement Vehicle</span>
-              <p className="text-sm font-extrabold text-white">V05 (Spare Van)</p>
+              <span className="text-slate-600 font-bold block text-[10px] uppercase">Replacement Unit</span>
+              <p className="font-display text-sm font-bold text-slate-900">V05 (Spare Van)</p>
             </div>
             <div>
-              <span className="text-emerald-400 font-bold block text-[10px] uppercase">Target Delivery</span>
-              <p className="text-sm font-extrabold text-white">D101 (Apex Tech)</p>
+              <span className="text-slate-600 font-bold block text-[10px] uppercase">Target Delivery</span>
+              <p className="font-display text-sm font-bold text-slate-900">D101 (Apex Tech)</p>
             </div>
             <div>
-              <span className="text-emerald-400 font-bold block text-[10px] uppercase">Action Strategy</span>
-              <p className="text-sm font-bold text-amber-300">Reassigned to V05</p>
+              <span className="text-slate-600 font-bold block text-[10px] uppercase">Strategy</span>
+              <p className="font-display text-sm font-bold text-amber-700">Reassigned to V05</p>
             </div>
             <div>
-              <span className="text-emerald-400 font-bold block text-[10px] uppercase">Expected Delay</span>
-              <p className="text-sm font-extrabold text-emerald-300">10 Minutes</p>
+              <span className="text-slate-600 font-bold block text-[10px] uppercase">Expected Overhead</span>
+              <p className="font-display text-sm font-bold text-emerald-600">10 Minutes</p>
             </div>
           </div>
 
           {planStatus === 'APPROVED' && (
             <button
               onClick={handleSendToDriver}
-              className="w-full py-4 bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-extrabold text-sm rounded-xl shadow-lg transition-all flex items-center justify-center space-x-2 uppercase tracking-wide"
+              className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 uppercase tracking-wider active:scale-95"
             >
               <Send className="w-5 h-5" />
-              <span>Send Plan to Driver</span>
+              <span>DISPATCH RECOVERY PLAN TO DRIVER</span>
             </button>
           )}
 
           {planStatus !== 'APPROVED' && (
-            <div className="bg-emerald-950/60 p-3 rounded-xl text-center text-xs font-bold text-emerald-300 border border-emerald-800">
-              ✓ Plan sent to driver dashboard. Awaiting driver acknowledgement.
+            <div className="bg-emerald-50 p-4 rounded-2xl text-center text-xs font-bold text-emerald-800 border border-emerald-200">
+              ✓ Dispatch instructions transmitted to driver dashboard. Awaiting driver acknowledgement.
             </div>
           )}
         </div>
       )}
 
-      {/* BEFORE VS AFTER IMPACT COMPARISON CARD (Requirement #18) */}
+      {/* BEFORE VS AFTER IMPACT COMPARISON CARD */}
       <BeforeAfterCard
         beforeMetrics={recoveryData?.beforeMetrics}
         afterMetrics={recoveryData?.afterMetrics}
       />
 
-      {/* All Generated Recovery Action Options List */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h3 className="font-extrabold text-base text-slate-900">Evaluated Recovery Action Alternatives ({options.length})</h3>
-          <span className="text-xs text-slate-500 font-medium">Ranked by Recovery Intelligence Score</span>
+      {/* EVALUATED RECOVERY ACTION ALTERNATIVES */}
+      <div className="command-card p-6 space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+          <div>
+            <h3 className="font-display font-bold text-base text-slate-900">Evaluated Recovery Alternatives ({options.length})</h3>
+            <p className="text-xs text-slate-700 font-medium">Ranked by Recovery Intelligence Score</p>
+          </div>
+          <span className="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+            OPTIONS MATRIX
+          </span>
         </div>
 
         <div className="space-y-3">
@@ -242,33 +262,33 @@ export default function RecoveryDecisionPage({ disturbanceId, onSendSuccess, sho
             <div
               key={opt.id}
               onClick={() => setSelectedOption(opt)}
-              className={`p-4 rounded-2xl border-2 transition-all cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 ${
+              className={`p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 ${
                 selectedOption?.id === opt.id
-                  ? 'bg-blue-50/50 border-blue-500 shadow-sm'
+                  ? 'bg-blue-50/50 border-blue-500 shadow-md ring-2 ring-blue-500/20'
                   : 'bg-white border-slate-200 hover:border-slate-300'
               }`}
             >
               <div className="space-y-1">
                 <div className="flex items-center space-x-2">
-                  <h4 className="font-extrabold text-sm text-slate-900">{opt.title}</h4>
+                  <h4 className="font-display font-bold text-sm text-slate-900">{opt.title}</h4>
                   {opt.id === recommended?.id && (
-                    <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full border border-emerald-300">
                       ★ Recommended
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-slate-600 font-medium">{opt.description}</p>
-                <p className="text-[11px] text-slate-400 italic mt-0.5">{opt.resource_notes}</p>
+                <p className="text-xs text-slate-700 font-medium">{opt.description}</p>
+                <p className="text-[11px] text-slate-600 italic mt-0.5">{opt.resource_notes}</p>
               </div>
 
-              <div className="flex items-center space-x-4 shrink-0">
+              <div className="flex items-center space-x-4 shrink-0 self-end md:self-center">
                 <div className="text-right">
-                  <span className="text-[10px] text-slate-400 font-bold block uppercase">Est. Delay</span>
-                  <span className="text-sm font-black text-slate-900">{opt.estimated_delay_min} min</span>
+                  <span className="text-[10px] text-slate-600 font-bold block uppercase">Est. Delay</span>
+                  <span className="font-display text-sm font-bold text-slate-900">+{opt.estimated_delay_min} min</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] text-slate-400 font-bold block uppercase">Score</span>
-                  <span className="text-base font-black text-blue-600">{opt.score}/100</span>
+                  <span className="text-[10px] text-slate-600 font-bold block uppercase">Score</span>
+                  <span className="font-display text-base font-bold text-blue-600">{opt.score}</span>
                 </div>
                 <button
                   onClick={(e) => {
@@ -276,9 +296,9 @@ export default function RecoveryDecisionPage({ disturbanceId, onSendSuccess, sho
                     setSelectedOption(opt);
                     handleDecision('ACCEPT', opt);
                   }}
-                  className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-lg"
+                  className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-sm transition-all active:scale-95"
                 >
-                  Select Action
+                  SELECT ACTION
                 </button>
               </div>
             </div>
@@ -288,3 +308,4 @@ export default function RecoveryDecisionPage({ disturbanceId, onSendSuccess, sho
     </div>
   );
 }
+
