@@ -99,14 +99,14 @@ export default function RecoveryDecisionPage({ disturbanceId, onSendSuccess, sho
 
       {/* RECOMMENDED ACTION BANNER */}
       {recommended && (
-        <div className="command-card rail-blue p-6 sm:p-8 border-2 border-blue-500 shadow-xl space-y-6">
+        <div className="command-card rail-orange p-6 sm:p-8 border-2 border-orange-500 shadow-xl space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
             <div className="flex items-center space-x-4">
-              <div className="bg-blue-600 text-white p-3.5 rounded-2xl shadow-md">
+              <div className="bg-orange-500 text-white p-3.5 rounded-2xl shadow-md">
                 <Award className="w-8 h-8" />
               </div>
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-blue-800 bg-blue-50 px-2.5 py-0.5 rounded border border-blue-200">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-orange-800 bg-orange-50 px-2.5 py-0.5 rounded border border-orange-200">
                   ✦ RECOMMENDED RECOVERY ACTION
                 </span>
                 <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900 mt-1">{recommended.title}</h2>
@@ -121,8 +121,8 @@ export default function RecoveryDecisionPage({ disturbanceId, onSendSuccess, sho
 
           {/* Explainability Callout */}
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 space-y-2">
-            <div className="flex items-center space-x-2 text-blue-700 text-xs font-bold">
-              <Info className="w-4 h-4 text-blue-600 shrink-0" />
+            <div className="flex items-center space-x-2 text-orange-700 text-xs font-bold">
+              <Info className="w-4 h-4 text-orange-600 shrink-0" />
               <span>DECISION REASONING & EXPLAINABILITY</span>
             </div>
             <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
@@ -134,7 +134,7 @@ export default function RecoveryDecisionPage({ disturbanceId, onSendSuccess, sho
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs bg-slate-50 p-5 rounded-2xl border border-slate-200">
             <div className="space-y-1">
               <span className="text-slate-600 text-[10px] uppercase font-bold block">Strategy Type</span>
-              <span className="font-display font-bold text-blue-600 text-sm block">{recommended.action_type}</span>
+              <span className="font-display font-bold text-orange-600 text-sm block">{recommended.action_type}</span>
             </div>
             <div className="space-y-1">
               <span className="text-slate-600 text-[10px] uppercase font-bold block">Expected Delay</span>
@@ -252,7 +252,7 @@ export default function RecoveryDecisionPage({ disturbanceId, onSendSuccess, sho
             <h3 className="font-display font-bold text-base text-slate-900">Evaluated Recovery Alternatives ({options.length})</h3>
             <p className="text-xs text-slate-700 font-medium">Ranked by Recovery Intelligence Score</p>
           </div>
-          <span className="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+          <span className="text-xs font-bold text-orange-700 bg-orange-50 px-3 py-1 rounded-full border border-orange-200">
             OPTIONS MATRIX
           </span>
         </div>
@@ -264,7 +264,7 @@ export default function RecoveryDecisionPage({ disturbanceId, onSendSuccess, sho
               onClick={() => setSelectedOption(opt)}
               className={`p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 ${
                 selectedOption?.id === opt.id
-                  ? 'bg-blue-50/50 border-blue-500 shadow-md ring-2 ring-blue-500/20'
+                  ? 'bg-orange-50/50 border-orange-500 shadow-md ring-2 ring-orange-500/20'
                   : 'bg-white border-slate-200 hover:border-slate-300'
               }`}
             >
@@ -288,7 +288,7 @@ export default function RecoveryDecisionPage({ disturbanceId, onSendSuccess, sho
                 </div>
                 <div className="text-right">
                   <span className="text-[10px] text-slate-600 font-bold block uppercase">Score</span>
-                  <span className="font-display text-base font-bold text-blue-600">{opt.score}</span>
+                  <span className="font-display text-base font-bold text-orange-600">{opt.score}</span>
                 </div>
                 <button
                   onClick={(e) => {
@@ -296,7 +296,7 @@ export default function RecoveryDecisionPage({ disturbanceId, onSendSuccess, sho
                     setSelectedOption(opt);
                     handleDecision('ACCEPT', opt);
                   }}
-                  className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-sm transition-all active:scale-95"
+                  className="px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold rounded-xl shadow-sm transition-all active:scale-95"
                 >
                   SELECT ACTION
                 </button>

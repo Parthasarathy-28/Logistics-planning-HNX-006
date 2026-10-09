@@ -48,16 +48,16 @@ export default function VisualCascade({ disturbance, routeCode = 'R03', vehicleC
           </span>
         </div>
 
-        <ArrowDown className="w-5 h-5 text-blue-500 animate-bounce" />
+        <ArrowDown className="w-5 h-5 text-orange-500 animate-bounce" />
 
         {/* Step 2: Route */}
-        <div className="w-full max-w-lg bg-slate-50 border border-slate-200 rounded-xl p-3.5 shadow-sm flex items-center justify-between rail-blue">
+        <div className="w-full max-w-lg bg-slate-50 border border-slate-200 rounded-xl p-3.5 shadow-sm flex items-center justify-between rail-orange">
           <div className="flex items-center space-x-3">
-            <div className="bg-blue-600 text-white p-2 rounded-lg">
+            <div className="bg-orange-500 text-white p-2 rounded-lg">
               <MapPin className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[10px] font-bold tracking-wider text-blue-700 uppercase">2. Affected Route</span>
+              <span className="text-[10px] font-bold tracking-wider text-orange-700 uppercase">2. Affected Route</span>
               <h4 className="text-sm font-bold text-slate-900">Route {routeCode}</h4>
               <p className="text-xs text-slate-700 font-medium">Industrial Corridor South (Hub South → Industrial Park B)</p>
             </div>
@@ -67,16 +67,16 @@ export default function VisualCascade({ disturbance, routeCode = 'R03', vehicleC
           </span>
         </div>
 
-        <ArrowDown className="w-5 h-5 text-blue-500 animate-bounce" />
+        <ArrowDown className="w-5 h-5 text-orange-500 animate-bounce" />
 
         {/* Step 3: Vehicle */}
-        <div className="w-full max-w-lg bg-slate-50 border border-slate-200 rounded-xl p-3.5 shadow-sm flex items-center justify-between rail-blue">
+        <div className="w-full max-w-lg bg-slate-50 border border-slate-200 rounded-xl p-3.5 shadow-sm flex items-center justify-between rail-orange">
           <div className="flex items-center space-x-3">
-            <div className="bg-indigo-600 text-white p-2 rounded-lg">
+            <div className="bg-orange-600 text-white p-2 rounded-lg">
               <Truck className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[10px] font-bold tracking-wider text-indigo-700 uppercase">3. Disrupted Vehicle</span>
+              <span className="text-[10px] font-bold tracking-wider text-orange-700 uppercase">3. Disrupted Vehicle</span>
               <h4 className="text-sm font-bold text-slate-900">Vehicle {vehicleCode}</h4>
               <p className="text-xs text-slate-700 font-medium">KA-04-ED-4004 (Driver: Alex Driver)</p>
             </div>
@@ -86,13 +86,13 @@ export default function VisualCascade({ disturbance, routeCode = 'R03', vehicleC
           </span>
         </div>
 
-        <ArrowDown className="w-5 h-5 text-blue-500 animate-bounce" />
+        <ArrowDown className="w-5 h-5 text-orange-500 animate-bounce" />
 
         {/* Step 4: Deliveries Grid */}
         <div className="w-full max-w-lg bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2">
           <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
             <span className="text-[10px] font-bold tracking-wider text-slate-700 uppercase flex items-center space-x-1">
-              <Package className="w-3.5 h-3.5 text-blue-600" />
+              <Package className="w-3.5 h-3.5 text-orange-600" />
               <span>4. Affected Deliveries Cascade ({sampleDeliveries.length})</span>
             </span>
           </div>

@@ -26,11 +26,11 @@ export default function SimulationPage({ showToast }) {
   return (
     <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 space-y-6 animate-fade-in text-slate-900">
       {/* COMMAND HEADER */}
-      <div className="command-card rail-blue p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="command-card rail-orange p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div className="space-y-2">
           <div className="flex items-center space-x-3">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200 flex items-center space-x-1">
-              <Zap className="w-3.5 h-3.5 text-blue-600" />
+            <span className="text-[11px] font-bold uppercase tracking-widest text-orange-700 bg-orange-50 px-3 py-1 rounded-full border border-orange-200 flex items-center space-x-1">
+              <Zap className="w-3.5 h-3.5 text-orange-600" />
               <span>PREDICTIVE SCENARIO ENGINE</span>
             </span>
             <span className="text-xs text-slate-600 font-mono font-medium">MONTE CARLO SIMULATION</span>
@@ -48,10 +48,10 @@ export default function SimulationPage({ showToast }) {
       <div className="command-card p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center space-x-2.5">
-            <Sliders className="w-5 h-5 text-blue-600" />
+            <Sliders className="w-5 h-5 text-orange-600" />
             <h3 className="font-display font-bold text-base text-slate-900">SIMULATED DISRUPTION DURATION</h3>
           </div>
-          <span className="text-xs font-mono font-bold bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-200 self-start sm:self-auto">
+          <span className="text-xs font-mono font-bold bg-orange-50 text-orange-700 px-3 py-1 rounded-full border border-orange-200 self-start sm:self-auto">
             {durationHours} HOURS DURATION PARAMETER
           </span>
         </div>
@@ -64,7 +64,7 @@ export default function SimulationPage({ showToast }) {
               onClick={() => setDurationHours(hrs)}
               className={`py-3.5 rounded-xl font-bold text-sm transition-all border flex items-center justify-center space-x-2 active:scale-95 ${
                 durationHours === hrs
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-md'
+                  ? 'bg-orange-500 text-white border-orange-500 shadow-md'
                   : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
               }`}
             >
@@ -78,7 +78,7 @@ export default function SimulationPage({ showToast }) {
       {/* SIMULATION RESULTS */}
       {loading ? (
         <div className="command-card p-12 text-center space-y-4">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-sm font-bold text-slate-700 uppercase tracking-wider">
             Recalculating Decision Engine for {durationHours}h Scenario...
           </p>
@@ -94,7 +94,7 @@ export default function SimulationPage({ showToast }) {
             </div>
             <div className="command-card p-5 space-y-1">
               <span className="text-[10px] text-slate-600 font-bold uppercase tracking-wider block">Impacted Packages</span>
-              <span className="font-display text-2xl font-bold text-blue-600 block">{simResult.riskSummary.total_affected} Shipments</span>
+              <span className="font-display text-2xl font-bold text-orange-600 block">{simResult.riskSummary.total_affected} Shipments</span>
               <span className="text-[11px] text-slate-600 font-medium">Route R03 corridor</span>
             </div>
             <div className="command-card rail-red p-5 space-y-1 bg-red-50/30">
@@ -111,8 +111,8 @@ export default function SimulationPage({ showToast }) {
 
           {/* Explainability Callout */}
           <div className="command-card p-6 sm:p-8 space-y-4">
-            <div className="flex items-center space-x-2 text-blue-700 text-xs font-bold uppercase tracking-wider">
-              <Award className="w-5 h-5 text-blue-600" />
+            <div className="flex items-center space-x-2 text-orange-700 text-xs font-bold uppercase tracking-wider">
+              <Award className="w-5 h-5 text-orange-600" />
               <span>SIMULATED DECISION ENGINE RECOMMENDATION ({durationHours}H)</span>
             </div>
             <h3 className="font-display text-xl font-bold text-slate-900">{simResult.recommendedOption?.title}</h3>
@@ -128,7 +128,7 @@ export default function SimulationPage({ showToast }) {
                 <h3 className="font-display font-bold text-base text-slate-900">RECALCULATED SLA TIMELINES ({durationHours}H SCENARIO)</h3>
                 <p className="text-xs text-slate-700 font-medium">Delivery ETA forecasts based on simulated delay parameter</p>
               </div>
-              <span className="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+              <span className="text-xs font-bold text-orange-700 bg-orange-50 px-3 py-1 rounded-full border border-orange-200">
                 FORECAST
               </span>
             </div>

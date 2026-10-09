@@ -118,7 +118,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans flex flex-col selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-white text-slate-900 font-sans flex flex-col selection:bg-orange-500 selection:text-white">
       {/* Navigation Bar */}
       <Navbar
         currentUser={currentUser}

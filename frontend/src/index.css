@@ -8,14 +8,14 @@
   --border-color: #E2E8F0;
   --border-subtle: #E7EAF0;
   --border-strong: #CBD5E1;
-  --border-active: #2563EB;
+  --border-active: #F97316;
   --text-primary: #0F172A;
   --text-secondary: #475569;
   --text-muted: #64748B;
+  --accent-orange: #F97316;
+  --accent-orange-tint: #FFF7ED;
+  --accent-amber: #F59E0B;
   --accent-blue: #2563EB;
-  --accent-electric: #3B82F6;
-  --accent-violet: #7C3AED;
-  --accent-cyan: #06B6D4;
   --critical-red: #EF4444;
   --warning-amber: #F59E0B;
   --safe-green: #10B981;
@@ -41,42 +41,42 @@
   letter-spacing: -0.03em;
 }
 
-/* 💎 4K Ultra-HD Light Glassmorphism Components */
+/* 💎 Rescue Orange Glassmorphism Components */
 .command-card, .glass-card {
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(226, 232, 240, 0.9);
   border-radius: 1.25rem;
   color: var(--text-primary);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.04), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .command-card:hover, .glass-card:hover {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(99, 102, 241, 0.35);
-  box-shadow: 0 16px 40px 0 rgba(31, 38, 135, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(249, 115, 22, 0.35);
+  box-shadow: 0 16px 40px 0 rgba(249, 115, 22, 0.07), inset 0 1px 1px 0 rgba(255, 255, 255, 1);
   transform: translateY(-2px);
 }
 
 .futuristic-card, .glass-card-hero {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 250, 252, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 247, 237, 0.5) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(226, 232, 240, 0.95);
+  border: 1px solid rgba(254, 215, 170, 0.6);
   border-radius: 1.5rem;
-  box-shadow: 0 12px 40px 0 rgba(15, 23, 42, 0.06), inset 0 1px 2px 0 rgba(255, 255, 255, 1);
+  box-shadow: 0 12px 40px 0 rgba(15, 23, 42, 0.05), inset 0 1px 2px 0 rgba(255, 255, 255, 1);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .futuristic-card:hover, .glass-card-hero:hover {
-  border-color: rgba(124, 58, 237, 0.4);
-  box-shadow: 0 20px 48px 0 rgba(124, 58, 237, 0.09), inset 0 1px 2px 0 rgba(255, 255, 255, 1);
+  border-color: rgba(249, 115, 22, 0.45);
+  box-shadow: 0 20px 48px 0 rgba(249, 115, 22, 0.1), inset 0 1px 2px 0 rgba(255, 255, 255, 1);
 }
 
 .glass-pill {
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(226, 232, 240, 0.85);
@@ -84,7 +84,7 @@
 }
 
 .glass-input {
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(226, 232, 240, 0.9);
@@ -92,18 +92,18 @@
 }
 
 .glass-input:focus {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: #2563EB;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  background: rgba(255, 255, 255, 0.98);
+  border-color: #F97316;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.14);
 }
 
 /* Left Accent Rails for Operational Status */
-.rail-blue {
-  border-left: 4px solid var(--accent-blue) !important;
+.rail-orange {
+  border-left: 4px solid var(--accent-orange) !important;
 }
 
-.rail-violet {
-  border-left: 4px solid var(--accent-violet) !important;
+.rail-blue {
+  border-left: 4px solid var(--accent-blue) !important;
 }
 
 .rail-red {
@@ -120,12 +120,12 @@
 
 /* Ambient Radial Glow & Grid Motifs */
 .tech-grid-pattern {
-  background-image: radial-gradient(rgba(148, 163, 184, 0.22) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(249, 115, 22, 0.12) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
-.ambient-glow-violet {
-  background: radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+.ambient-glow-orange {
+  background: radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
 }
 
 .ambient-glow-blue {
@@ -133,6 +133,19 @@
 }
 
 /* Subtle Pulse Animations for Live Operational State */
+.pulse-orange {
+  animation: pulse-orange-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-orange-subtle {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.25), 0 4px 12px rgba(249, 115, 22, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(249, 115, 22, 0), 0 8px 20px rgba(249, 115, 22, 0.25);
+  }
+}
+
 .pulse-red {
   animation: pulse-red-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

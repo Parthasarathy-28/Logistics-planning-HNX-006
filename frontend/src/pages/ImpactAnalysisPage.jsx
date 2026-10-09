@@ -25,7 +25,7 @@ export default function ImpactAnalysisPage({ disturbanceId, onGenerateRecovery }
   if (loading) {
     return (
       <div className="max-w-6xl mx-auto p-12 text-center space-y-4">
-        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto" />
+        <div className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto" />
         <p className="text-sm font-extrabold text-slate-700 uppercase tracking-wider">Running Intelligence Impact Analysis...</p>
       </div>
     );
@@ -46,11 +46,11 @@ export default function ImpactAnalysisPage({ disturbanceId, onGenerateRecovery }
   return (
     <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6 space-y-6 animate-fade-in text-slate-900">
       {/* COMMAND HEADER */}
-      <div className="command-card rail-blue p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="command-card rail-orange p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div className="space-y-2">
           <div className="flex items-center space-x-3">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200 flex items-center space-x-1">
-              <Zap className="w-3.5 h-3.5 text-blue-600" />
+            <span className="text-[11px] font-bold uppercase tracking-widest text-orange-700 bg-orange-50 px-3 py-1 rounded-full border border-orange-200 flex items-center space-x-1">
+              <Zap className="w-3.5 h-3.5 text-orange-600" />
               <span>IMPACT ANALYSIS ENGINE</span>
             </span>
             <span className="text-xs text-slate-600 font-mono font-medium">DETERMINISTIC MODEL</span>
@@ -65,7 +65,7 @@ export default function ImpactAnalysisPage({ disturbanceId, onGenerateRecovery }
 
         <button
           onClick={() => onGenerateRecovery(disturbanceId)}
-          className="px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center space-x-2.5 uppercase tracking-wider shrink-0 active:scale-95 border border-blue-500/30"
+          className="px-6 py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center space-x-2.5 uppercase tracking-wider shrink-0 active:scale-95 border border-orange-500/30"
         >
           <span>GENERATE RECOVERY OPTIONS</span>
           <ArrowRight className="w-4 h-4" />
@@ -77,7 +77,7 @@ export default function ImpactAnalysisPage({ disturbanceId, onGenerateRecovery }
         <div className="command-card p-5 space-y-1">
           <span className="text-slate-600 text-[10px] font-bold uppercase tracking-wider block">Affected Corridor</span>
           <span className="font-display text-xl font-bold text-slate-900 block">Route R03</span>
-          <span className="text-[11px] text-blue-600 font-semibold block">Industrial Corridor South</span>
+          <span className="text-[11px] text-orange-600 font-semibold block">Industrial Corridor South</span>
         </div>
         <div className="command-card p-5 space-y-1">
           <span className="text-slate-600 text-[10px] font-bold uppercase tracking-wider block">Affected Vehicle</span>
@@ -86,7 +86,7 @@ export default function ImpactAnalysisPage({ disturbanceId, onGenerateRecovery }
         </div>
         <div className="command-card p-5 space-y-1">
           <span className="text-slate-600 text-[10px] font-bold uppercase tracking-wider block">Affected Deliveries</span>
-          <span className="font-display text-xl font-bold text-blue-600 block">{summary.total_affected} Shipments</span>
+          <span className="font-display text-xl font-bold text-orange-600 block">{summary.total_affected} Shipments</span>
           <span className="text-[11px] text-slate-600 font-medium block">D101, D102, D103</span>
         </div>
         <div className="command-card rail-red p-5 space-y-1 bg-red-50/30">

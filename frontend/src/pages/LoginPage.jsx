@@ -145,27 +145,27 @@ export default function LoginPage({ onLoginSuccess }) {
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 lg:p-8 bg-white tech-grid-pattern relative overflow-hidden">
       {/* Ambient Radial Glass Backdrops */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-5xl w-full glass-card-hero overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[620px] relative z-10">
         
         {/* LEFT COLUMN: Premium Enterprise Command Hero Panel */}
         <div className="lg:col-span-6 bg-[#0F172A] text-white p-8 lg:p-12 flex flex-col justify-between relative overflow-hidden">
           {/* Background Decorative Mesh Graphics & Glowing Nodes */}
-          <div className="absolute -top-24 -left-24 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-24 -left-24 w-72 h-72 bg-orange-600/20 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:2rem_2rem] pointer-events-none" />
 
           {/* Top Brand Header */}
           <div className="relative z-10 space-y-4">
-            <div className="inline-flex items-center space-x-2.5 bg-slate-800/90 border border-slate-700/80 px-3.5 py-1.5 rounded-full text-xs font-bold text-blue-400">
-              <span className="w-2 h-2 rounded-full bg-blue-500 animate-ping" />
+            <div className="inline-flex items-center space-x-2.5 bg-slate-800/90 border border-slate-700/80 px-3.5 py-1.5 rounded-full text-xs font-bold text-orange-400">
+              <span className="w-2 h-2 rounded-full bg-orange-500 animate-ping" />
               <span className="tracking-widest uppercase text-[10px]">Fleet Intelligence Operational</span>
             </div>
 
             <div className="flex items-center space-x-3">
-              <div className="bg-blue-600 p-3 rounded-2xl text-white shadow-xl shadow-blue-500/30">
+              <div className="bg-orange-500 p-3 rounded-2xl text-white shadow-xl shadow-orange-500/30">
                 <Truck className="w-8 h-8 stroke-[2.5]" />
               </div>
               <div>
@@ -177,14 +177,14 @@ export default function LoginPage({ onLoginSuccess }) {
 
           {/* Animated Route Network SVG Illustration */}
           <div className="relative z-10 my-4 py-2 flex items-center justify-center">
-            <svg viewBox="0 0 400 160" className="w-full h-36 max-w-md text-blue-500">
+            <svg viewBox="0 0 400 160" className="w-full h-36 max-w-md text-orange-500">
               <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
                 <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1e293b" strokeWidth="0.5" />
               </pattern>
               <rect width="400" height="160" fill="url(#grid)" opacity="0.4" />
 
               <path d="M 30 100 Q 120 40, 220 100 T 370 60" fill="none" stroke="#334155" strokeWidth="3" strokeDasharray="4,4" />
-              <path d="M 30 100 Q 120 40, 220 100 T 370 60" fill="none" stroke="#2563eb" strokeWidth="2.5" strokeDasharray="200" strokeDashoffset="0" className="animate-pulse" />
+              <path d="M 30 100 Q 120 40, 220 100 T 370 60" fill="none" stroke="#f97316" strokeWidth="2.5" strokeDasharray="200" strokeDashoffset="0" className="animate-pulse" />
               
               <path d="M 220 100 Q 280 140, 370 60" fill="none" stroke="#10b981" strokeWidth="2.5" strokeDasharray="6,4" />
 
@@ -192,9 +192,9 @@ export default function LoginPage({ onLoginSuccess }) {
               <circle cx="220" cy="100" r="6" fill="#dc2626" />
               <text x="220" y="80" fill="#f87171" fontSize="10" fontWeight="bold" textAnchor="middle">🚨 DISRUPTION</text>
 
-              <circle cx="120" cy="62" r="7" fill="#3b82f6" />
+              <circle cx="120" cy="62" r="7" fill="#f97316" />
               <circle cx="120" cy="62" r="3" fill="#ffffff" />
-              <text x="120" y="48" fill="#60a5fa" fontSize="9" fontWeight="bold" textAnchor="middle">🚚 V04 ACTIVE</text>
+              <text x="120" y="48" fill="#fdba74" fontSize="9" fontWeight="bold" textAnchor="middle">🚚 V04 ACTIVE</text>
 
               <circle cx="280" cy="122" r="6" fill="#10b981" />
               <text x="280" y="142" fill="#34d399" fontSize="9" fontWeight="bold" textAnchor="middle">🅿️ V05 STANDBY</text>
@@ -204,7 +204,7 @@ export default function LoginPage({ onLoginSuccess }) {
           {/* Hero Value Statement */}
           <div className="relative z-10 my-4 space-y-3">
             <h2 className="text-2xl lg:text-3xl font-black text-white leading-tight font-display">
-              Turn disruptions into <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-amber-300 bg-clip-text text-transparent">intelligent recovery decisions.</span>
+              Turn disruptions into <span className="bg-gradient-to-r from-orange-400 via-amber-400 to-amber-300 bg-clip-text text-transparent">intelligent recovery decisions.</span>
             </h2>
             <p className="text-xs text-slate-300 leading-relaxed font-medium">
               Real-time multi-lingual disruption input, dynamic impact cascade analysis, automated recovery scoring, and live GIS vehicle tracking.
@@ -212,7 +212,7 @@ export default function LoginPage({ onLoginSuccess }) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
               <div className="bg-slate-800/60 border border-slate-700/60 p-3 rounded-2xl flex items-start space-x-3">
-                <Activity className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
+                <Activity className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
                 <div>
                   <div className="text-xs font-extrabold text-white">Multi-Lingual Reporting</div>
                   <div className="text-[11px] text-slate-400 font-medium">Tamil, Tanglish & English Voice</div>
@@ -258,7 +258,7 @@ export default function LoginPage({ onLoginSuccess }) {
                   type="button"
                   onClick={() => { setError(null); setSuccessMsg(null); setMode('LOGIN'); }}
                   className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    mode === 'LOGIN' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                    mode === 'LOGIN' ? 'bg-orange-500 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   Sign In
@@ -267,7 +267,7 @@ export default function LoginPage({ onLoginSuccess }) {
                   type="button"
                   onClick={() => { setError(null); setSuccessMsg(null); setMode('REGISTER'); }}
                   className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    mode === 'REGISTER' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                    mode === 'REGISTER' ? 'bg-orange-500 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   Register
@@ -305,7 +305,7 @@ export default function LoginPage({ onLoginSuccess }) {
                       value={loginUsername}
                       onChange={(e) => setLoginUsername(e.target.value)}
                       placeholder="Enter username"
-                      className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all placeholder:text-slate-400"
+                      className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all placeholder:text-slate-400"
                       required
                     />
                   </div>
@@ -322,7 +322,7 @@ export default function LoginPage({ onLoginSuccess }) {
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
                       placeholder="Enter password"
-                      className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all placeholder:text-slate-400"
+                      className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all placeholder:text-slate-400"
                       required
                     />
                   </div>
@@ -331,7 +331,7 @@ export default function LoginPage({ onLoginSuccess }) {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm rounded-xl shadow-md shadow-blue-500/20 transition-all disabled:opacity-50 flex items-center justify-center space-x-2 tracking-wide active:scale-95 border border-blue-500"
+                  className="w-full py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-black text-sm rounded-xl shadow-md shadow-orange-500/20 transition-all disabled:opacity-50 flex items-center justify-center space-x-2 tracking-wide active:scale-95 border border-orange-500"
                 >
                   {loading ? <span>AUTHENTICATING...</span> : <span>SIGN IN TO ROUTERESCUE</span>}
                 </button>
@@ -341,7 +341,7 @@ export default function LoginPage({ onLoginSuccess }) {
                   <button
                     type="button"
                     onClick={() => { setError(null); setSuccessMsg(null); setMode('REGISTER'); }}
-                    className="text-xs font-extrabold text-blue-600 hover:text-blue-700 underline"
+                    className="text-xs font-extrabold text-orange-600 hover:text-orange-700 underline"
                   >
                     Create Account
                   </button>
@@ -361,7 +361,7 @@ export default function LoginPage({ onLoginSuccess }) {
                     value={regName}
                     onChange={(e) => setRegName(e.target.value)}
                     placeholder="e.g. Partha Sharma"
-                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 placeholder:text-slate-400"
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder:text-slate-400"
                     required
                   />
                 </div>
@@ -375,7 +375,7 @@ export default function LoginPage({ onLoginSuccess }) {
                     value={regUsername}
                     onChange={(e) => setRegUsername(e.target.value)}
                     placeholder="e.g. partha"
-                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 placeholder:text-slate-400"
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder:text-slate-400"
                     required
                   />
                 </div>
@@ -390,7 +390,7 @@ export default function LoginPage({ onLoginSuccess }) {
                       value={regPassword}
                       onChange={(e) => setRegPassword(e.target.value)}
                       placeholder="Min 6 chars"
-                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 placeholder:text-slate-400"
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder:text-slate-400"
                       required
                     />
                   </div>
@@ -403,7 +403,7 @@ export default function LoginPage({ onLoginSuccess }) {
                       value={regConfirmPassword}
                       onChange={(e) => setRegConfirmPassword(e.target.value)}
                       placeholder="Re-enter password"
-                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 placeholder:text-slate-400"
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder:text-slate-400"
                       required
                     />
                   </div>
@@ -420,11 +420,11 @@ export default function LoginPage({ onLoginSuccess }) {
                       onClick={() => setRegRole('OWNER')}
                       className={`p-2.5 rounded-xl border text-xs font-extrabold flex items-center justify-center space-x-2 transition-all ${
                         regRole === 'OWNER'
-                          ? 'bg-blue-600 text-white border-blue-600 shadow-md'
+                          ? 'bg-orange-500 text-white border-orange-500 shadow-md'
                           : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
-                      <ShieldCheck className="w-4 h-4 text-blue-500" />
+                      <ShieldCheck className={`w-4 h-4 ${regRole === 'OWNER' ? 'text-white' : 'text-orange-500'}`} />
                       <span>Operations Owner</span>
                     </button>
 
@@ -519,7 +519,7 @@ export default function LoginPage({ onLoginSuccess }) {
                 onClick={() => handleQuickDemo('owner', 'owner123')}
                 className="p-2.5 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-xl text-xs text-left transition-all flex items-center space-x-2.5 shadow-sm border border-slate-200"
               >
-                <Shield className="w-4 h-4 text-blue-600 shrink-0" />
+                <Shield className="w-4 h-4 text-orange-600 shrink-0" />
                 <div>
                   <div className="font-extrabold text-[11px] text-slate-900">OWNER DEMO</div>
                   <div className="text-[9px] text-slate-500 font-mono">owner / owner123</div>

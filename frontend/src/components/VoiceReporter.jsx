@@ -172,7 +172,7 @@ export default function VoiceReporter({ onConfirmVoiceReport }) {
         <div>
           <div className="flex items-center space-x-2">
             <h3 className="text-base font-extrabold text-slate-900">🎙 VOICE REPORTING SYSTEM</h3>
-            <span className="text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-full">
+            <span className="text-[10px] bg-orange-100 text-orange-800 font-bold px-2 py-0.5 rounded-full">
               Multilingual (English • தமிழ்)
             </span>
           </div>
@@ -185,7 +185,7 @@ export default function VoiceReporter({ onConfirmVoiceReport }) {
       {/* Language Selector Dropdown */}
       <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
         <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center space-x-1.5">
-          <Globe className="w-4 h-4 text-blue-600" />
+          <Globe className="w-4 h-4 text-orange-600" />
           <span>🎙 Voice Language Selector</span>
         </label>
         <div className="grid grid-cols-3 gap-2">
@@ -194,7 +194,7 @@ export default function VoiceReporter({ onConfirmVoiceReport }) {
             onClick={() => setSelectedLanguage('mixed')}
             className={`py-2.5 px-3 rounded-xl text-xs font-extrabold transition-all border ${
               selectedLanguage === 'mixed'
-                ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                ? 'bg-orange-500 text-white border-orange-500 shadow-sm'
                 : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
             }`}
           >
@@ -205,7 +205,7 @@ export default function VoiceReporter({ onConfirmVoiceReport }) {
             onClick={() => setSelectedLanguage('ta-IN')}
             className={`py-2.5 px-3 rounded-xl text-xs font-extrabold transition-all border ${
               selectedLanguage === 'ta-IN'
-                ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                ? 'bg-orange-500 text-white border-orange-500 shadow-sm'
                 : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
             }`}
           >
@@ -216,7 +216,7 @@ export default function VoiceReporter({ onConfirmVoiceReport }) {
             onClick={() => setSelectedLanguage('en-IN')}
             className={`py-2.5 px-3 rounded-xl text-xs font-extrabold transition-all border ${
               selectedLanguage === 'en-IN'
-                ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                ? 'bg-orange-500 text-white border-orange-500 shadow-sm'
                 : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100'
             }`}
           >
@@ -251,7 +251,7 @@ export default function VoiceReporter({ onConfirmVoiceReport }) {
             className={`w-full py-6 rounded-3xl font-black text-lg flex flex-col items-center justify-center space-y-1 transition-all shadow-lg ${
               isListening
                 ? 'bg-red-600 hover:bg-red-700 text-white pulse-red'
-                : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/20'
+                : 'bg-orange-500 hover:bg-orange-600 text-white shadow-orange-500/20'
             }`}
           >
             {isListening ? (
@@ -268,7 +268,7 @@ export default function VoiceReporter({ onConfirmVoiceReport }) {
                   <Mic className="w-7 h-7" />
                   <span>🎙 REPORT BY VOICE / குரல் பதிவு</span>
                 </div>
-                <span className="text-xs font-normal text-blue-100">Press to start speaking in Tamil or English</span>
+                <span className="text-xs font-normal text-orange-100">Press to start speaking in Tamil or English</span>
               </>
             )}
           </button>

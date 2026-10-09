@@ -5,7 +5,7 @@ export default function Navbar({ currentUser, onLogout, onLoadDemo, onResetDemo,
   return (
     <header className="bg-white/95 backdrop-blur-xl text-slate-900 border-b border-slate-200 sticky top-0 z-50 shadow-sm relative">
       {/* Top Futuristic Accent Bar */}
-      <div className="h-0.5 w-full bg-gradient-to-r from-blue-600 via-violet-600 to-cyan-500" />
+      <div className="h-0.5 w-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600" />
       
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
@@ -22,7 +22,7 @@ export default function Navbar({ currentUser, onLogout, onLoadDemo, onResetDemo,
             }
           }}
         >
-          <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-600 p-2.5 rounded-xl flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-all border border-blue-400/30">
+          <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-2.5 rounded-xl flex items-center justify-center text-white shadow-md shadow-orange-500/20 group-hover:scale-105 transition-all border border-orange-400/30">
             <Truck className="w-5 h-5 stroke-[2.5]" />
           </div>
           <div>
@@ -30,7 +30,7 @@ export default function Navbar({ currentUser, onLogout, onLoadDemo, onResetDemo,
               <span className="font-bold text-lg tracking-tight text-slate-900 font-display">
                 ROUTERESCUE
               </span>
-              <span className="inline-flex items-center space-x-1.5 text-[9px] uppercase font-bold tracking-widest bg-gradient-to-r from-blue-50 to-violet-50 text-violet-700 border border-violet-200/80 px-2.5 py-0.5 rounded-full shadow-2xs">
+              <span className="inline-flex items-center space-x-1.5 text-[9px] uppercase font-bold tracking-widest bg-gradient-to-r from-orange-50 to-amber-50 text-orange-700 border border-orange-200/80 px-2.5 py-0.5 rounded-full shadow-2xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span>COMMAND CENTER</span>
               </span>
@@ -47,7 +47,7 @@ export default function Navbar({ currentUser, onLogout, onLoadDemo, onResetDemo,
                 onClick={() => setActivePage('driver-dashboard')}
                 className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
                   activePage === 'driver-dashboard'
-                    ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-md shadow-blue-500/20'
+                    ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-md shadow-orange-500/20'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                 }`}
               >
@@ -59,7 +59,7 @@ export default function Navbar({ currentUser, onLogout, onLoadDemo, onResetDemo,
                   onClick={() => setActivePage('owner-dashboard')}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                     activePage === 'owner-dashboard'
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20'
+                      ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-md shadow-orange-500/20'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
@@ -69,7 +69,7 @@ export default function Navbar({ currentUser, onLogout, onLoadDemo, onResetDemo,
                   onClick={() => setActivePage('impact-analysis')}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                     activePage === 'impact-analysis'
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20'
+                      ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-md shadow-orange-500/20'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
@@ -79,7 +79,7 @@ export default function Navbar({ currentUser, onLogout, onLoadDemo, onResetDemo,
                   onClick={() => setActivePage('recovery-decision')}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                     activePage === 'recovery-decision'
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20'
+                      ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-md shadow-orange-500/20'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
@@ -89,7 +89,7 @@ export default function Navbar({ currentUser, onLogout, onLoadDemo, onResetDemo,
                   onClick={() => setActivePage('simulation')}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                     activePage === 'simulation'
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20'
+                      ? 'bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-md shadow-orange-500/20'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
@@ -128,7 +128,7 @@ export default function Navbar({ currentUser, onLogout, onLoadDemo, onResetDemo,
               <span className={`px-3 py-1 text-xs font-bold rounded-full border shadow-2xs ${
                 currentUser.role === 'DRIVER' 
                   ? 'bg-amber-50 text-amber-800 border-amber-200' 
-                  : 'bg-gradient-to-r from-blue-50 to-violet-50 text-violet-800 border border-violet-200'
+                  : 'bg-gradient-to-r from-orange-50 to-amber-50 text-orange-800 border border-orange-200'
               }`}>
                 {currentUser.role === 'DRIVER' 
                   ? `🚚 DRIVER (${(currentUser.name || 'DRIVER').toUpperCase()})` 
@@ -146,7 +146,7 @@ export default function Navbar({ currentUser, onLogout, onLoadDemo, onResetDemo,
           ) : (
             <button
               onClick={() => setActivePage('login')}
-              className="px-4 py-1.5 bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-500 hover:to-violet-500 text-white text-xs font-bold rounded-xl shadow-md"
+              className="px-4 py-1.5 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white text-xs font-bold rounded-xl shadow-md"
             >
               Login
             </button>

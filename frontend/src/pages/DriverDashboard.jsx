@@ -165,7 +165,7 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
       {/* DRIVER HEADER COMMAND CARD */}
       <div className="bg-white text-slate-900 rounded-3xl p-6 shadow-md border border-slate-200/80 flex flex-col md:flex-row md:items-center md:justify-between gap-4 relative overflow-hidden">
         <div className="flex items-center space-x-4 relative z-10">
-          <div className="bg-blue-50 border border-blue-200 text-blue-600 p-4 rounded-2xl font-black text-xl flex items-center justify-center shadow-sm shrink-0">
+          <div className="bg-orange-50 border border-orange-200 text-orange-600 p-4 rounded-2xl font-black text-xl flex items-center justify-center shadow-sm shrink-0">
             <Truck className="w-8 h-8 stroke-[2.5]" />
           </div>
           <div>
@@ -177,7 +177,7 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
               </span>
             </div>
             <p className="text-xs text-slate-600 font-medium mt-1">
-              Assigned Vehicle: <span className="font-extrabold text-blue-600">{currentVehicle}</span> | Active Route: <span className="font-extrabold text-slate-900">{currentRoute}</span>
+              Assigned Vehicle: <span className="font-extrabold text-orange-600">{currentVehicle}</span> | Active Route: <span className="font-extrabold text-slate-900">{currentRoute}</span>
             </p>
           </div>
         </div>
@@ -255,7 +255,7 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
             ) : plan.status === 'DRIVER_ACKNOWLEDGED' || plan.status === 'IN_PROGRESS' ? (
               <button
                 onClick={handleCompleteDelivery}
-                className="flex-1 py-4 bg-blue-600 hover:bg-blue-700 text-white text-base font-black rounded-2xl shadow-md transition-all flex items-center justify-center space-x-2 uppercase tracking-wider active:scale-95 border border-blue-500"
+                className="flex-1 py-4 bg-orange-500 hover:bg-orange-600 text-white text-base font-black rounded-2xl shadow-md transition-all flex items-center justify-center space-x-2 uppercase tracking-wider active:scale-95 border border-orange-500"
               >
                 <Package className="w-6 h-6 stroke-[2.5]" />
                 <span>Mark Delivery Completed</span>
@@ -287,7 +287,7 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
             <button
               onClick={() => setActiveTab('TAP')}
               className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-extrabold transition-all ${
-                activeTab === 'TAP' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                activeTab === 'TAP' ? 'bg-orange-500 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <span>TAP INCIDENT</span>
@@ -296,7 +296,7 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
             <button
               onClick={() => setActiveTab('VOICE')}
               className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-extrabold transition-all ${
-                activeTab === 'VOICE' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                activeTab === 'VOICE' ? 'bg-orange-500 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <Mic className="w-3.5 h-3.5" />
@@ -306,7 +306,7 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
             <button
               onClick={() => setActiveTab('TEXT')}
               className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-extrabold transition-all ${
-                activeTab === 'TEXT' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                activeTab === 'TEXT' ? 'bg-orange-500 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <span>TEXT INPUT</span>
@@ -323,7 +323,7 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
                 onClick={() => setSelectedCategory('VEHICLE')}
                 className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all ${
                   selectedCategory === 'VEHICLE'
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-orange-500 text-white shadow-sm'
                     : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
                 }`}
               >
@@ -333,7 +333,7 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
                 onClick={() => setSelectedCategory('NATURAL_DISASTER')}
                 className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-all ${
                   selectedCategory === 'NATURAL_DISASTER'
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-orange-500 text-white shadow-sm'
                     : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
                 }`}
               >
@@ -348,10 +348,10 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
                   key={btn.type}
                   disabled={submitting}
                   onClick={() => handleReport('TAP', selectedCategory, btn.type, `${btn.label} on route ${currentRoute}`)}
-                  className="p-5 bg-white hover:bg-blue-50/60 border border-slate-200 hover:border-blue-500 rounded-2xl text-center transition-all group flex flex-col items-center justify-center space-y-2 active:scale-95 disabled:opacity-50 shadow-sm hover:shadow-md hover:-translate-y-0.5"
+                  className="p-5 bg-white hover:bg-orange-50/60 border border-slate-200 hover:border-orange-500 rounded-2xl text-center transition-all group flex flex-col items-center justify-center space-y-2 active:scale-95 disabled:opacity-50 shadow-sm hover:shadow-md hover:-translate-y-0.5"
                 >
                   <span className="text-3xl group-hover:scale-110 transition-transform">{btn.icon}</span>
-                  <span className="text-xs font-extrabold text-slate-900 group-hover:text-blue-600">{btn.label}</span>
+                  <span className="text-xs font-extrabold text-slate-900 group-hover:text-orange-600">{btn.label}</span>
                 </button>
               ))}
             </div>
@@ -383,12 +383,12 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
                 value={textDescription}
                 onChange={(e) => setTextDescription(e.target.value)}
                 placeholder="Enter description of disruption (e.g., Heavy traffic breakdown near Mile 18, delay expected)..."
-                className="w-full p-4 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 placeholder:text-slate-400"
+                className="w-full p-4 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500 placeholder:text-slate-400"
               />
               <button
                 disabled={submitting || !textDescription.trim()}
                 onClick={() => handleReport('TEXT', 'VEHICLE', 'ENGINE_ISSUE', textDescription)}
-                className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm rounded-xl shadow-md shadow-blue-500/20 transition-all disabled:opacity-50 flex items-center justify-center space-x-2 active:scale-95 border border-blue-600"
+                className="w-full py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-black text-sm rounded-xl shadow-md shadow-orange-500/20 transition-all disabled:opacity-50 flex items-center justify-center space-x-2 active:scale-95 border border-orange-500"
               >
                 <Send className="w-4 h-4" />
                 <span>SUBMIT TEXT DISRUPTION REPORT</span>
@@ -425,7 +425,7 @@ export default function DriverDashboard({ driverData, onReportSuccess, showToast
             </div>
             <div>
               <span className="text-slate-500 font-bold block text-[10px] uppercase">Incident Type</span>
-              <p className="font-extrabold text-blue-600 mt-0.5">{disturbance.type}</p>
+              <p className="font-extrabold text-orange-600 mt-0.5">{disturbance.type}</p>
             </div>
             <div>
               <span className="text-slate-500 font-bold block text-[10px] uppercase">Input Method</span>

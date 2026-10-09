@@ -50,12 +50,12 @@ export default function OwnerDashboard({ onViewImpact, onViewDetails, showToast 
       {/* COMMAND CENTER HEADER */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white text-slate-900 p-6 rounded-3xl shadow-md border border-slate-200/80 relative overflow-hidden">
         <div className="flex items-center space-x-4 relative z-10">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 shadow-sm">
-            <Zap className="w-6 h-6 animate-pulse text-blue-600" />
+          <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-center text-orange-600 shadow-sm">
+            <Zap className="w-6 h-6 animate-pulse text-orange-600" />
           </div>
           <div>
             <div className="flex items-center space-x-3">
-              <span className="text-[11px] font-black uppercase tracking-widest bg-blue-50 text-blue-700 border border-blue-200 px-3 py-0.5 rounded-full flex items-center space-x-1.5">
+              <span className="text-[11px] font-black uppercase tracking-widest bg-orange-50 text-orange-700 border border-orange-200 px-3 py-0.5 rounded-full flex items-center space-x-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>LIVE OPERATIONS CONTROL</span>
               </span>
@@ -86,7 +86,7 @@ export default function OwnerDashboard({ onViewImpact, onViewDetails, showToast 
         <div className="command-card p-5 space-y-2">
           <div className="flex items-center justify-between text-slate-500">
             <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">ACTIVE VEHICLES</span>
-            <Truck className="w-4 h-4 text-blue-600" />
+            <Truck className="w-4 h-4 text-orange-600" />
           </div>
           <div className="flex items-baseline justify-between">
             <span className="text-3xl font-black text-slate-900 font-display tracking-tight">{activeVehiclesCount}</span>
@@ -203,14 +203,14 @@ export default function OwnerDashboard({ onViewImpact, onViewDetails, showToast 
             <div className="space-y-1">
               <span className="text-slate-500 text-[10px] uppercase font-bold tracking-wider block">Impacted Vehicle</span>
               <p className="text-base font-black text-slate-900 flex items-center space-x-1.5">
-                <Truck className="w-4 h-4 text-blue-600" />
+                <Truck className="w-4 h-4 text-orange-600" />
                 <span>{latestAlert.vehicle_code || latestAlert.vehicle_id}</span>
               </p>
             </div>
             <div className="space-y-1">
               <span className="text-slate-500 text-[10px] uppercase font-bold tracking-wider block">Corridor / Route</span>
-              <p className="text-base font-black text-blue-600 flex items-center space-x-1.5">
-                <MapPin className="w-4 h-4 text-blue-600" />
+              <p className="text-base font-black text-orange-600 flex items-center space-x-1.5">
+                <MapPin className="w-4 h-4 text-orange-600" />
                 <span>Route {latestAlert.route_code || latestAlert.route_id}</span>
               </p>
             </div>
@@ -226,7 +226,7 @@ export default function OwnerDashboard({ onViewImpact, onViewDetails, showToast 
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
             <p className="text-xs sm:text-sm text-slate-700 font-medium">
-              Reported by driver <strong className="text-slate-900">{latestAlert.driver_name}</strong> via <span className="text-blue-600 font-bold uppercase">{latestAlert.input_method}</span>: 
+              Reported by driver <strong className="text-slate-900">{latestAlert.driver_name}</strong> via <span className="text-orange-600 font-bold uppercase">{latestAlert.input_method}</span>: 
               <span className="italic text-slate-800"> "{latestAlert.description}"</span>
             </p>
             <div className="flex space-x-3 w-full sm:w-auto">
@@ -239,7 +239,7 @@ export default function OwnerDashboard({ onViewImpact, onViewDetails, showToast 
               </button>
               <button
                 onClick={() => onViewImpact(latestAlert.id)}
-                className="flex-1 sm:flex-initial px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 uppercase tracking-wide active:scale-95 border border-blue-600"
+                className="flex-1 sm:flex-initial px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 uppercase tracking-wide active:scale-95 border border-orange-500"
               >
                 <span>RUN IMPACT CASCADE</span>
                 <ArrowRight className="w-4 h-4" />
@@ -268,7 +268,7 @@ export default function OwnerDashboard({ onViewImpact, onViewDetails, showToast 
               <h3 className="font-extrabold text-base text-slate-900 font-display">Active Reported Disturbances ({alerts.length})</h3>
               <p className="text-xs text-slate-500">Live feed ordered by time captured</p>
             </div>
-            <span className="text-[11px] font-extrabold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+            <span className="text-[11px] font-extrabold text-orange-700 bg-orange-50 px-3 py-1 rounded-full border border-orange-200">
               DISRUPTION LOG
             </span>
           </div>
@@ -289,7 +289,7 @@ export default function OwnerDashboard({ onViewImpact, onViewDetails, showToast 
                         <span className="text-[10px] font-extrabold bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md border border-slate-200">
                           {item.vehicle_code}
                         </span>
-                        <span className="text-[10px] font-extrabold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-md border border-blue-200">
+                        <span className="text-[10px] font-extrabold bg-orange-50 text-orange-700 px-2 py-0.5 rounded-md border border-orange-200">
                           Route {item.route_code}
                         </span>
                       </div>
@@ -308,7 +308,7 @@ export default function OwnerDashboard({ onViewImpact, onViewDetails, showToast 
                     </span>
                     <button
                       onClick={() => onViewImpact(item.id)}
-                      className="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-sm transition-all active:scale-95 flex items-center space-x-1"
+                      className="px-3.5 py-2 bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-xs rounded-xl shadow-sm transition-all active:scale-95 flex items-center space-x-1"
                     >
                       <span>IMPACT ENGINE</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -334,15 +334,15 @@ export default function OwnerDashboard({ onViewImpact, onViewDetails, showToast 
                   <span className="text-slate-500 text-[10px] font-extrabold uppercase block">Fleet Active Units</span>
                   <span className="text-sm font-black text-slate-900">5 Delivery Vans</span>
                 </div>
-                <Truck className="w-5 h-5 text-blue-600" />
+                <Truck className="w-5 h-5 text-orange-600" />
               </div>
 
               <div className="bg-white p-4 rounded-2xl border border-slate-200 flex justify-between items-center">
                 <div>
                   <span className="text-slate-500 text-[10px] font-extrabold uppercase block">Monitored Corridors</span>
-                  <span className="text-sm font-black text-blue-600">5 High-Priority Routes</span>
+                  <span className="text-sm font-black text-orange-600">5 High-Priority Routes</span>
                 </div>
-                <MapPin className="w-5 h-5 text-blue-600" />
+                <MapPin className="w-5 h-5 text-orange-600" />
               </div>
 
               <div className="bg-white p-4 rounded-2xl border border-slate-200 flex justify-between items-center">
@@ -356,9 +356,9 @@ export default function OwnerDashboard({ onViewImpact, onViewDetails, showToast 
           </div>
 
           <div className="pt-4 border-t border-slate-200">
-            <div className="bg-blue-50 border border-blue-200 p-3.5 rounded-2xl text-xs space-y-1 text-blue-900">
-              <p className="font-black flex items-center space-x-1">
-                <Zap className="w-3.5 h-3.5 text-blue-600" />
+            <div className="bg-orange-50 border border-orange-200 p-3.5 rounded-2xl text-xs space-y-1 text-orange-950">
+              <p className="font-black flex items-center space-x-1 text-orange-900">
+                <Zap className="w-3.5 h-3.5 text-orange-600" />
                 <span>INTELLIGENCE ENGINE ACTIVE</span>
               </p>
               <p className="text-[11px] text-slate-600">

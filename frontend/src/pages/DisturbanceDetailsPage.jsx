@@ -78,7 +78,7 @@ export default function DisturbanceDetailsPage({ disturbanceId, onViewImpact }) 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* WHAT HAPPENED? */}
         <div className="command-card p-6 space-y-3">
-          <span className="text-[10px] font-bold text-blue-700 uppercase tracking-widest block">WHAT HAPPENED?</span>
+          <span className="text-[10px] font-bold text-orange-700 uppercase tracking-widest block">WHAT HAPPENED?</span>
           <div className="flex items-center space-x-3">
             <div className="p-3 bg-red-50 text-red-600 rounded-xl border border-red-200 shadow-sm">
               <AlertTriangle className="w-6 h-6" />
@@ -95,9 +95,9 @@ export default function DisturbanceDetailsPage({ disturbanceId, onViewImpact }) 
 
         {/* WHERE & WHEN? */}
         <div className="command-card p-6 space-y-3">
-          <span className="text-[10px] font-bold text-blue-700 uppercase tracking-widest block">WHERE & WHEN?</span>
+          <span className="text-[10px] font-bold text-orange-700 uppercase tracking-widest block">WHERE & WHEN?</span>
           <div className="flex items-center space-x-3">
-            <div className="p-3 bg-blue-50 text-blue-600 rounded-xl border border-blue-200 shadow-sm">
+            <div className="p-3 bg-orange-50 text-orange-600 rounded-xl border border-orange-200 shadow-sm">
               <MapPin className="w-6 h-6" />
             </div>
             <div>
@@ -113,9 +113,9 @@ export default function DisturbanceDetailsPage({ disturbanceId, onViewImpact }) 
 
         {/* WHO IS AFFECTED? */}
         <div className="command-card p-6 space-y-3">
-          <span className="text-[10px] font-bold text-blue-700 uppercase tracking-widest block">WHO IS AFFECTED?</span>
+          <span className="text-[10px] font-bold text-orange-700 uppercase tracking-widest block">WHO IS AFFECTED?</span>
           <div className="flex items-center space-x-3">
-            <div className="p-3 bg-indigo-50 text-indigo-600 rounded-xl border border-indigo-200 shadow-sm">
+            <div className="p-3 bg-amber-50 text-amber-600 rounded-xl border border-amber-200 shadow-sm">
               <User className="w-6 h-6" />
             </div>
             <div>
@@ -125,7 +125,7 @@ export default function DisturbanceDetailsPage({ disturbanceId, onViewImpact }) 
           </div>
           <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1 text-xs">
             <p className="text-slate-600 font-medium">Capture Source Method:</p>
-            <p className="font-bold text-blue-600 text-sm uppercase">{dist.input_method || 'TAP'} REPORTING</p>
+            <p className="font-bold text-orange-600 text-sm uppercase">{dist.input_method || 'TAP'} REPORTING</p>
           </div>
         </div>
 

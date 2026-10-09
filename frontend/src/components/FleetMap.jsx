@@ -149,7 +149,7 @@ export default function FleetMap({ vehicles = [], disruptions = [], deliveries =
           {/* Route R03 Corridor Line */}
           <Polyline
             positions={routeR03Path}
-            pathOptions={{ color: '#2563eb', weight: 4, dashArray: '6, 8', opacity: 0.8 }}
+            pathOptions={{ color: '#f97316', weight: 4, dashArray: '6, 8', opacity: 0.8 }}
           />
 
           {/* Vehicle Markers */}
